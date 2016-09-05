@@ -246,7 +246,9 @@ namespace ass1 {
 
             String alertText;
             //Wave number alert
-            if (timeSeconds < 5 && waveNumber != 1) {
+            if (pause == true) {
+                alertText = "Game is Paused. Please press space to continue";
+            }else if (timeSeconds < 5 && waveNumber != 1) {
                 alertText = "Wave " + waveNumber;
             } else if (waveNumber > 1) {
                 alertText = "";
@@ -264,7 +266,7 @@ namespace ass1 {
                 alertText = "Each wave will increase the spawn rate of enemies";
             } else if (waveNumber == 1 && timeSeconds < 60) {
                 alertText = "HOW LONG WILL YOU LAST?";
-            } else {
+            }else {
                 alertText = "";
             }
             spriteBatch.DrawString(informationFont, alertText, new Vector2(SCREEN_WIDTH / 2 - SCREEN_WIDTH/4, SCREEN_HEIGHT / 2), Color.Black);
