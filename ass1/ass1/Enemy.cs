@@ -17,8 +17,8 @@ namespace ass1 {
 
         public Enemy(Model m, Vector3 position, Tower tower, Game1 game) : base(m, position) {
             this.tower = tower;
-            this.health = 100;
-            this.speed = 50.0f;
+            this.health = 300;
+            this.speed = 100.0f;
             if (game.waveNumber <= 2) {
                 this.rewardForKilling = 5.0;
             } else if (game.waveNumber <= 4) {
