@@ -15,7 +15,7 @@ namespace ass1 {
         public int SCREEN_WIDTH;
         public int SCREEN_HEIGHT;
 
-        public static Color TEXT_COLOR = Color.White;
+        public static Color TEXT_COLOR = Color.DarkRed;
 
         public int waveNumber;
 
@@ -36,7 +36,6 @@ namespace ass1 {
         //http://www.bensound.com/royalty-free-music/track/epic
         private Song backgroundMusic;
         private SoundEffectInstance sirenInstance;
-        private SoundEffectInstance backgroundMusicInstance;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -49,7 +48,6 @@ namespace ass1 {
         KeyboardState prevKeyboardState;
 
         SpriteFont informationFont;
-        Color textColor;
 
         Random rand = new Random();
 
@@ -292,7 +290,7 @@ namespace ass1 {
             //Find the center of the string
             Vector2 fontOrigin = informationFont.MeasureString(alertText) / 2;
             //Draw the String
-            spriteBatch.DrawString(informationFont, alertText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), Game1.TEXT_COLOR, 0, fontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(informationFont, alertText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), Game1.TEXT_COLOR, 0, fontOrigin, 1.5f, SpriteEffects.None, 0.5f);
 
 
             spriteBatch.DrawString(informationFont, "Wave: " + waveNumber, new Vector2(SCREEN_WIDTH - 150, SCREEN_HEIGHT - 100), Game1.TEXT_COLOR);
