@@ -214,6 +214,9 @@ namespace ass1 {
                 else
                     pause = false;
             }
+
+            prevKeyboardState = ks;
+
             Debug.WriteLine("Pause " + pause);
             if(pause ==false)
             base.Update(gameTime);
