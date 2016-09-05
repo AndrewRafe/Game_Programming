@@ -54,6 +54,7 @@ namespace ass1 {
         public Camera camera;
 
         bool gameOver;
+        bool pause; // sushmita
 
         /// <summary>
         /// Constructor method for the game
@@ -103,6 +104,8 @@ namespace ass1 {
 
             sirenInstance = siren.CreateInstance();
 
+            pause = false;
+
             base.Initialize();
         }
 
@@ -145,6 +148,7 @@ namespace ass1 {
 
             // TODO: Add your update logic here
             //THE LOGIC FOR DETERMINING THE POSITION OF THE MOUSE RELATIVE TO GROUND PLANE
+            KeyboardState ks = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
 
             Vector3 nearsource = new Vector3((float)mouseState.Position.X, (float)mouseState.Position.Y, 0f);
@@ -198,7 +202,15 @@ namespace ass1 {
                 timeSeconds = gameTime.TotalGameTime.Seconds;
             }
 
-
+            if(ks.IsKeyDown(Keys.Space))
+            {
+                if (pause == false)
+                    pause = true;
+                else
+                    pause = false;
+            }
+            Debug.WriteLine("Pause " + pause);
+            if(pause ==false)
             base.Update(gameTime);
         }
 

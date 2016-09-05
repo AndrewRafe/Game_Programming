@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/Fonts/playerInfoFont.spritefont</SourceFile>
-  <SourceTime>2016-09-05T00:45:36.7886046+10:00</SourceTime>
-  <DestFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/bin/Windows/Fonts/playerInfoFont.xnb</DestFile>
-  <DestTime>2016-09-05T00:46:15.1847682+10:00</DestTime>
+  <SourceFile>C:/Users/sushm/Documents/Game Programming/Group Assignment 1/New One/Game_Programming/ass1/ass1/Content/Fonts/playerInfoFont.spritefont</SourceFile>
+  <SourceTime>2016-09-05T07:39:59.2086379+10:00</SourceTime>
+  <DestFile>C:/Users/sushm/Documents/Game Programming/Group Assignment 1/New One/Game_Programming/ass1/ass1/Content/bin/Windows/Fonts/playerInfoFont.xnb</DestFile>
+  <DestTime>2016-09-05T07:56:52.958542+10:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
-  <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
+  <ImporterTime>2015-04-30T03:14:44+10:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>
-  <ProcessorTime>2016-03-30T17:36:08+11:00</ProcessorTime>
+  <ProcessorTime>2015-04-30T03:14:44+10:00</ProcessorTime>
   <Parameters>
     <Key>TextureFormat</Key>
     <Value>Compressed</Value>
