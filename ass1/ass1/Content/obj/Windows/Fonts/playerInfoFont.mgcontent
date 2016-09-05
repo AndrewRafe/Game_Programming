@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/Fonts/playerInfoFont.spritefont</SourceFile>
-  <SourceTime>2016-09-05T00:45:36.7886046+10:00</SourceTime>
-  <DestFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/bin/Windows/Fonts/playerInfoFont.xnb</DestFile>
-  <DestTime>2016-09-05T12:50:07.0846061+10:00</DestTime>
+  <SourceFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/Fonts/playerInfoFont.spritefont</SourceFile>
+  <SourceTime>2016-09-05T15:07:14.9760479+10:00</SourceTime>
+  <DestFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/bin/Windows/Fonts/playerInfoFont.xnb</DestFile>
+  <DestTime>2016-09-05T15:08:26.1978676+10:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

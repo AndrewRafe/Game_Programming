@@ -21,7 +21,7 @@ namespace ass1 {
         public static int WORLD_BOUNDS_HEIGHT = 1000;
 
         private int timeMinutes;
-        private int timeSeconds;
+        private int timeMilliseconds;
 
         private bool towerHealthDanger;
 
@@ -44,6 +44,7 @@ namespace ass1 {
         Player player;
 
         MouseState prevMouseState;
+        KeyboardState prevKeyboardState;
 
         SpriteFont informationFont;
 
@@ -89,7 +90,7 @@ namespace ass1 {
             waveNumber = 1;
 
             timeMinutes = 0;
-            timeSeconds = 0;
+            timeMilliseconds = 0;
 
             towerHealthDanger = false;
 
@@ -196,13 +197,17 @@ namespace ass1 {
                 worldModelManager.CreateEnemy();
             }
 
-            if (!gameOver) {
-                timeMinutes = gameTime.TotalGameTime.Minutes;
+            if (!gameOver && !pause) {
+                timeMilliseconds += gameTime.ElapsedGameTime.Milliseconds;
+                //If time in milliseconds is greater than one minute
+                if (timeMilliseconds > 60000) {
+                    timeMinutes++;
+                    timeMilliseconds = 0;
+                }
                 waveNumber = timeMinutes + 1;
-                timeSeconds = gameTime.TotalGameTime.Seconds;
             }
 
-            if(ks.IsKeyDown(Keys.Space))
+            if(ks.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {
                 if (pause == false)
                     pause = true;
@@ -236,10 +241,10 @@ namespace ass1 {
             }
 
             String timeString;
-            if (timeSeconds < 10) {
-                timeString = "Time: " + timeMinutes + ":0" + timeSeconds;
+            if (timeMilliseconds < 10000) {
+                timeString = "Time: " + timeMinutes + ":0" + timeMilliseconds/1000;
             } else {
-                timeString = "Time: " + timeMinutes + ":" + timeSeconds;
+                timeString = "Time: " + timeMinutes + ":" + timeMilliseconds/1000;
             }
 
             spriteBatch.DrawString(informationFont,timeString, new Vector2(SCREEN_WIDTH - 100, 20), Color.Black);
@@ -248,23 +253,23 @@ namespace ass1 {
             //Wave number alert
             if (pause == true) {
                 alertText = "Game is Paused. Please press space to continue";
-            }else if (timeSeconds < 5 && waveNumber != 1) {
+            }else if (timeMilliseconds < 5000 && waveNumber != 1) {
                 alertText = "Wave " + waveNumber;
             } else if (waveNumber > 1) {
                 alertText = "";
-            } else if(waveNumber == 1 && timeSeconds < 10) {
+            } else if(waveNumber == 1 && timeMilliseconds < 10000) {
                 alertText = "YOU MUST DEFEND YOUR TOWER";
-            } else if (waveNumber == 1 && timeSeconds < 20) {
+            } else if (waveNumber == 1 && timeMilliseconds < 20000) {
                 alertText = "Left Click to place a Cannon\nA Cannon costs $100";
-            } else if (waveNumber == 1 && timeSeconds < 28) {
+            } else if (waveNumber == 1 && timeMilliseconds < 28000) {
                 alertText = "But be careful, the enemy can destroy your Cannons";
-            } else if (waveNumber == 1 && timeSeconds < 37) {
+            } else if (waveNumber == 1 && timeMilliseconds < 37000) {
                 alertText = "You can earn more money by killing Enemies";
-            } else if (waveNumber == 1 && timeSeconds < 46) {
+            } else if (waveNumber == 1 && timeMilliseconds < 46000) {
                 alertText = "A wave will last 1 Minute";
-            } else if (waveNumber == 1 && timeSeconds < 55) {
+            } else if (waveNumber == 1 && timeMilliseconds < 55000) {
                 alertText = "Each wave will increase the spawn rate of enemies";
-            } else if (waveNumber == 1 && timeSeconds < 60) {
+            } else if (waveNumber == 1 && timeMilliseconds < 60000) {
                 alertText = "HOW LONG WILL YOU LAST?";
             }else {
                 alertText = "";

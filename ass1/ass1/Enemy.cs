@@ -17,13 +17,13 @@ namespace ass1 {
 
         public Enemy(Model m, Vector3 position, Tower tower, Game1 game) : base(m, position) {
             this.tower = tower;
-            this.health = 300;
-            this.speed = 100.0f;
-            if (game.waveNumber <= 2) {
+            this.health = 200;
+            this.speed = 80.0f;
+            if (game.waveNumber <= 4) {
                 this.rewardForKilling = 5.0;
-            } else if (game.waveNumber <= 4) {
-                this.rewardForKilling = 2.0;
             } else if (game.waveNumber <= 6) {
+                this.rewardForKilling = 2.0;
+            } else if (game.waveNumber <= 8) {
                 this.rewardForKilling = 1.0;
             } else {
                 this.rewardForKilling = 0.5;

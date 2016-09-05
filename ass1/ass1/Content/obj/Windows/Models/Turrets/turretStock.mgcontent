@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/Models/Turrets/turretStock.fbx</SourceFile>
-  <SourceTime>2016-09-05T00:45:36.8686821+10:00</SourceTime>
-  <DestFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Turrets/turretStock.xnb</DestFile>
-  <DestTime>2016-09-05T12:50:06.163175+10:00</DestTime>
+  <SourceFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/Models/Turrets/turretStock.fbx</SourceFile>
+  <SourceTime>2016-09-05T15:07:15.0245546+10:00</SourceTime>
+  <DestFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Turrets/turretStock.xnb</DestFile>
+  <DestTime>2016-09-05T15:08:25.9761793+10:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
