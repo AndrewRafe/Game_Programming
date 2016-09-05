@@ -3,7 +3,7 @@
   <SourceFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/Models/selectionCube.fbx</SourceFile>
   <SourceTime>2016-09-05T15:07:15.0275337+10:00</SourceTime>
   <DestFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/bin/Windows/Models/selectionCube.xnb</DestFile>
-  <DestTime>2016-09-05T15:08:25.9636161+10:00</DestTime>
+  <DestTime>2016-09-05T17:06:54.3502536+10:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
@@ -54,7 +54,7 @@
   </Parameters>
   <Parameters>
     <Key>Scale</Key>
-    <Value>10</Value>
+    <Value>3</Value>
   </Parameters>
   <Parameters>
     <Key>SwapWindingOrder</Key>
