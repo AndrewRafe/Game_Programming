@@ -17,8 +17,8 @@ namespace ass1 {
 
         public Enemy(Model m, Vector3 position, Tower tower, Game1 game) : base(m, position) {
             this.tower = tower;
-            this.health = 200;
-            this.speed = 80.0f;
+            this.health = 300;
+            this.speed = (float) game.rand.Next(50, 100);
             if (game.waveNumber <= 4) {
                 this.rewardForKilling = 5.0;
             } else if (game.waveNumber <= 6) {

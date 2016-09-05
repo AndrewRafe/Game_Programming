@@ -49,7 +49,7 @@ namespace ass1 {
 
         SpriteFont informationFont;
 
-        Random rand = new Random();
+        public Random rand = new Random();
 
         int enemiesKilled;
 

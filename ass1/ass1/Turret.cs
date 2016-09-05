@@ -61,7 +61,7 @@ namespace ass1 {
         /// </summary>
         protected virtual void Initiate() {
             health = 10;
-            fireRate = 2.0f;
+            fireRate = 1.5f;
             name = "Basic Turret";
         }
 
