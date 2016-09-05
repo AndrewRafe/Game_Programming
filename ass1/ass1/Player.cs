@@ -69,7 +69,7 @@ namespace ass1 {
         /// <param name="spriteBatch">The Game SpriteBatch</param>
         /// <param name="font">The SpriteFont that the will be used for the message</param>
         public void DrawText(SpriteBatch spriteBatch, SpriteFont font) {
-            spriteBatch.DrawString(font, "Money : $" + money, new Vector2(20, 20), Color.Black);
+            spriteBatch.DrawString(font, "Money : $" + money, new Vector2(20, 20), Game1.TEXT_COLOR);
         }
 
     }

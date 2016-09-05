@@ -86,7 +86,9 @@ namespace ass1
         /// <param name="spriteBatch">A reference to the sprite batch from the game</param>
         /// <param name="font">The SpriteFont that will be used for the text</param>
         public void DrawText(SpriteBatch spriteBatch, SpriteFont font) {
-            spriteBatch.DrawString(font, "Tower Health: " + this.health, new Vector2(game.SCREEN_WIDTH/2 - 60, 20), Color.Black);
+            String text = "Tower Health: " + this.health;
+            Vector2 textCenter = font.MeasureString(text)/2;
+            spriteBatch.DrawString(font, text, new Vector2(game.SCREEN_WIDTH/2, 40), Game1.TEXT_COLOR, 0, textCenter, 1.0f, SpriteEffects.None, 0.5f);
         }
 
         /// <summary>

@@ -15,6 +15,8 @@ namespace ass1 {
         public int SCREEN_WIDTH;
         public int SCREEN_HEIGHT;
 
+        public static Color TEXT_COLOR = Color.White;
+
         public int waveNumber;
 
         public static int WORLD_BOUNDS_WIDTH = 1000;
@@ -47,6 +49,7 @@ namespace ass1 {
         KeyboardState prevKeyboardState;
 
         SpriteFont informationFont;
+        Color textColor;
 
         Random rand = new Random();
 
@@ -62,7 +65,10 @@ namespace ass1 {
         /// </summary>
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
-            //graphics.ToggleFullScreen();
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
+
             Content.RootDirectory = "Content";
             gameOver = false;
         }
@@ -122,8 +128,8 @@ namespace ass1 {
 
             informationFont = Content.Load<SpriteFont>(@"Fonts\playerInfoFont");
 
-            SCREEN_HEIGHT = Window.ClientBounds.Height;
-            SCREEN_WIDTH = Window.ClientBounds.Width;
+            SCREEN_HEIGHT = graphics.PreferredBackBufferHeight;
+            SCREEN_WIDTH = graphics.PreferredBackBufferWidth;
 
             Debug.WriteLine("Screen height = " + SCREEN_HEIGHT + " Screen width = " + SCREEN_WIDTH);
             // TODO: use this.Content to load your game content here
@@ -193,7 +199,7 @@ namespace ass1 {
             prevMouseState = mouseState;
 
             //Random enemy creation every frame, 1 in 100 chance of spawing
-            if (rand.Next() % 500/waveNumber  < waveNumber) {
+            if (rand.Next() % 500/waveNumber < waveNumber) {
                 worldModelManager.CreateEnemy();
             }
 
@@ -218,7 +224,7 @@ namespace ass1 {
             prevKeyboardState = ks;
 
             Debug.WriteLine("Pause " + pause);
-            if(pause ==false)
+            if(pause ==false && !gameOver)
             base.Update(gameTime);
         }
 
@@ -227,7 +233,7 @@ namespace ass1 {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             base.Draw(gameTime);
 
@@ -239,7 +245,12 @@ namespace ass1 {
 
             //Message displayed when game is over
             if (gameOver) {
-                spriteBatch.DrawString(informationFont, "THE TOWER HAS BEEN DESTROYED", new Vector2(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2), Color.Black);
+                String gameOverString = "THE TOWER HAS BEEN DESTROYED";
+                String waveNumberGameOverString = "YOU MADE IT TO WAVE: " + waveNumber;
+                Vector2 gameOverCenterVector = informationFont.MeasureString(gameOverString) / 2;
+                Vector2 waveNumberGameOverCenterVector = informationFont.MeasureString(waveNumberGameOverString) / 2;
+                spriteBatch.DrawString(informationFont, gameOverString, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 100), Game1.TEXT_COLOR, 0, gameOverCenterVector, 1.0f, SpriteEffects.None, 0.5f);
+                spriteBatch.DrawString(informationFont, waveNumberGameOverString, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 100), Game1.TEXT_COLOR, 0, waveNumberGameOverCenterVector, 1.0f, SpriteEffects.None, 0.5f);
                 
             }
 
@@ -250,11 +261,11 @@ namespace ass1 {
                 timeString = "Time: " + timeMinutes + ":" + timeMilliseconds/1000;
             }
 
-            spriteBatch.DrawString(informationFont,timeString, new Vector2(SCREEN_WIDTH - 100, 20), Color.Black);
+            spriteBatch.DrawString(informationFont,timeString, new Vector2(SCREEN_WIDTH - 150, 20),TEXT_COLOR);
 
             String alertText;
             //Wave number alert
-            if (pause == true) {
+            if (pause == true && !gameOver) {
                 alertText = "Game is Paused. Please press space to continue";
             }else if (timeMilliseconds < 5000 && waveNumber != 1) {
                 alertText = "Wave " + waveNumber;
@@ -263,7 +274,7 @@ namespace ass1 {
             } else if(waveNumber == 1 && timeMilliseconds < 10000) {
                 alertText = "YOU MUST DEFEND YOUR TOWER";
             } else if (waveNumber == 1 && timeMilliseconds < 20000) {
-                alertText = "Left Click to place a Cannon\nA Cannon costs $100";
+                alertText = "Left Click to place a Cannon. A Cannon costs $100";
             } else if (waveNumber == 1 && timeMilliseconds < 28000) {
                 alertText = "But be careful, the enemy can destroy your Cannons";
             } else if (waveNumber == 1 && timeMilliseconds < 37000) {
@@ -277,10 +288,14 @@ namespace ass1 {
             }else {
                 alertText = "";
             }
-            spriteBatch.DrawString(informationFont, alertText, new Vector2(SCREEN_WIDTH / 2 - SCREEN_WIDTH/4, SCREEN_HEIGHT / 2), Color.Black);
+
+            //Find the center of the string
+            Vector2 fontOrigin = informationFont.MeasureString(alertText) / 2;
+            //Draw the String
+            spriteBatch.DrawString(informationFont, alertText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), Game1.TEXT_COLOR, 0, fontOrigin, 1.0f, SpriteEffects.None, 0.5f);
 
 
-            spriteBatch.DrawString(informationFont, "Wave: " + waveNumber, new Vector2(SCREEN_WIDTH - 100, SCREEN_HEIGHT - 20), Color.Black);
+            spriteBatch.DrawString(informationFont, "Wave: " + waveNumber, new Vector2(SCREEN_WIDTH - 150, SCREEN_HEIGHT - 100), Game1.TEXT_COLOR);
 
             spriteBatch.End();
 
@@ -295,6 +310,7 @@ namespace ass1 {
         /// </summary>
         public void GameOver() {
             gameOver = true;
+            pause = true;
         }
 
         /// <summary>
