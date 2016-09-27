@@ -105,14 +105,13 @@ namespace ass1 {
             Vector3 newUp = Vector3.Cross(relativeBackwards, relativeRight);
             Matrix rot = new Matrix(relativeRight.X, relativeRight.Y, relativeRight.Z, 0, newUp.X, newUp.Y, newUp.Z, 0, relativeBackwards.X, relativeBackwards.Y, relativeBackwards.Z, 0, 0, 0, 0, 1);
             Quaternion rotation = Quaternion.CreateFromRotationMatrix(rot);
-            Debug.WriteLine("MAKING QUATERNION");
             return rotation;
         }
 
         /// <summary>
         /// Getter method to return the position of the current model
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The position of the current model</returns>
         public Vector3 GetPosition() {
             return this.position;
         }

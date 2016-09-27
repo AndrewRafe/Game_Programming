@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/Models/Buildings/Tower/roof.jpg</SourceFile>
-  <SourceTime>2016-09-05T15:07:14.9934699+10:00</SourceTime>
-  <DestFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/Tower/roof_0.xnb</DestFile>
-  <DestTime>2016-09-05T15:08:29.4587413+10:00</DestTime>
+  <SourceFile>F:/MonoGame Workspace/Game_Programming/ass1/ass1/Content/Models/Buildings/Tower/roof.jpg</SourceFile>
+  <SourceTime>2016-09-26T16:04:13.7169642+10:00</SourceTime>
+  <DestFile>F:/MonoGame Workspace/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/Tower/roof_0.xnb</DestFile>
+  <DestTime>2016-09-26T16:05:03.4590188+10:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

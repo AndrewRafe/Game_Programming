@@ -21,6 +21,7 @@ namespace ass1 {
 
         public static int WORLD_BOUNDS_WIDTH = 1000;
         public static int WORLD_BOUNDS_HEIGHT = 1000;
+        public static float TILE_SIZE = 50.0f;
 
         private int timeMinutes;
         private int timeMilliseconds;
@@ -43,6 +44,8 @@ namespace ass1 {
         WorldModelManager worldModelManager;
 
         Player player;
+
+        Grid grid;
 
         MouseState prevMouseState;
         KeyboardState prevKeyboardState;
@@ -86,6 +89,10 @@ namespace ass1 {
             Components.Add(worldModelManager);
 
             player = new Player(this);
+
+            grid = new Grid(Vector3.Zero, WORLD_BOUNDS_WIDTH / (int)TILE_SIZE, 
+                (int) WORLD_BOUNDS_HEIGHT / (int)TILE_SIZE);
+            Debug.WriteLine(grid.ToString());
 
             prevMouseState = Mouse.GetState();
 
@@ -220,8 +227,6 @@ namespace ass1 {
             }
 
             prevKeyboardState = ks;
-
-            Debug.WriteLine("Pause " + pause);
             if(pause ==false && !gameOver)
             base.Update(gameTime);
         }

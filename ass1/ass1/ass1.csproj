@@ -44,6 +44,8 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="Grid.cs" />
+    <Compile Include="Tile.cs" />
     <Compile Include="Tower.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Ground.cs" />

@@ -45,7 +45,7 @@ namespace ass1 {
         /// <summary>
         /// Constructor class for the camera
         /// </summary>
-        /// <param name="game"></param>
+        /// <param name="game">A reference to the game</param>
         /// <param name="pos">The position of the camera</param>
         /// <param name="target">The target that the camera will face</param>
         /// <param name="up">The cameras up vector</param>
@@ -71,6 +71,10 @@ namespace ass1 {
                 (float)Game.Window.ClientBounds.Height, nearPlane, farPlane);
         }
 
+        /// <summary>
+        /// Initialise the state of the camera as well as set the mouse position
+        /// to the middle of the screen on launch
+        /// </summary>
         public override void Initialize() {
 
             //Set mouse position and get the initial state
@@ -91,7 +95,7 @@ namespace ass1 {
         /// <summary>
         /// Allows for the controlling of the camera
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">A reference to the game time</param>
         public override void Update(GameTime gameTime) {
 
             //Move forward and back
