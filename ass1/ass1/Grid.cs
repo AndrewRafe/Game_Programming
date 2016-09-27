@@ -51,6 +51,21 @@ namespace ass1 {
         }
 
         /// <summary>
+        /// Will retrieve the tile based of a given global position
+        /// </summary>
+        /// <param name="globalPosition"></param>
+        /// <returns></returns>
+        public Tile GetTile(Vector3 globalPosition) {
+            foreach (Tile tile in tiles) {
+                if (Math.Abs(tile.globalPosition.X - globalPosition.X) <= Game1.TILE_SIZE/2 &&
+                    Math.Abs(tile.globalPosition.Y - globalPosition.Y) <= Game1.TILE_SIZE/2) {
+                    return tile;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Helper method to construct the grid based on the attribute values
         /// </summary>
         private void GenerateGrid() {

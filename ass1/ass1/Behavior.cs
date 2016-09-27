@@ -65,5 +65,90 @@ namespace ass1 {
             return newPosition;
         }
 
+        /// <summary>
+        /// Predict the position that the given target will be
+        /// </summary>
+        /// <param name="targetPosition">The position of the target</param>
+        /// <param name="targetVelocityVector">The velocity of the target</param>
+        /// <param name="gameTime">A reference to the game time</param>
+        /// <param name="predictionAccuracy">A prediction accuracy variable</param>
+        /// <returns>The position that the target will be</returns>
+        public static Vector3 PredictTargetPosition(Vector3 targetPosition, Vector3 targetVelocityVector, GameTime gameTime, int predictionAccuracy) {
+            //Predict where the target will be according to its current velocity and prediction accuracy
+            Vector3 predictionPosition = targetPosition + targetVelocityVector * predictionAccuracy;
+            return predictionPosition;
+        }
+
+        //TODO: ASTAR PATHFINDING IMPLEMENTATION
+        /*
+        public static LinkedList<Tile> AStarPathFinding(Tile currentTile, Tile destinationTile, Grid grid) {
+            grid.ResetTileCosts();
+            LinkedList<Tile> closedSet = new LinkedList<Tile>();
+            LinkedList<Tile> openSet = new LinkedList<Tile>();
+            float tentativeGScore = 0;
+            openSet.AddLast(currentTile);
+            currentTile.gScore = 0;
+            currentTile.fScore = Heuristic(currentTile, destinationTile);
+            LinkedList<Tile> prevTiles = new LinkedList<Tile>();
+            Tile current;
+            while (openSet.Count != 0) {
+                current = openSet.First.Value;
+                if (!current.isWalkable) {
+                    openSet.Remove(current);
+                    continue;
+                }
+                foreach (Tile tile in openSet) {
+                    if (tile.fScore < current.fScore) {
+                        current = tile;
+                    }
+                }
+                if (current.Equals(destinationTile)) {
+                    break;
+                }
+                openSet.Remove(current);
+                closedSet.AddLast(current);
+
+                foreach (Tile tile in current.adjacentTiles) {
+                    if (closedSet.Contains(tile)) {
+                        continue;
+                    }
+
+                    tentativeGScore = current.gScore + Vector2.Distance(current.gridPosition, tile.gridPosition);
+                    if (!(openSet.Contains(tile))) {
+                        openSet.AddLast(tile);
+                    }
+                    else if (tentativeGScore >= tile.gScore) {
+                        continue;
+                    }
+
+                    tile.cameFrom = current;
+                    tile.gScore = tentativeGScore;
+                    tile.fScore = tile.gScore + Heuristic(current, destinationTile);
+
+                }
+
+            }
+
+            LinkedList<Tile> path = new LinkedList<Tile>();
+            Tile workBackTile = destinationTile;
+            while (workBackTile != currentTile) {
+                if (workBackTile == null) {
+                    Debug.WriteLine("There is no path to the target");
+                    return new LinkedList<Tile>();
+                }
+                path.AddFirst(workBackTile);
+                workBackTile = workBackTile.cameFrom;
+            }
+
+            return path;
+
+
+        }
+        
+        private static float Heuristic(Tile currentTile, Tile destinationTile) {
+            return (Vector2.Distance(currentTile.gridPosition, destinationTile.gridPosition));
+        }
+        */
+
     }
 }

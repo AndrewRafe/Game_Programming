@@ -11,6 +11,7 @@ namespace ass1 {
 
         public int health { get; protected set; }
         public double rewardForKilling { get; protected set; }
+        public Vector3 prevPosition { get; private set; }
         Tower tower;
         float speed;
         int damage;
@@ -40,6 +41,7 @@ namespace ass1 {
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime) {
+            prevPosition = position;
             position = Behavior.StraightLineChase(this.position, tower.GetPosition(), gameTime, this.speed);
             rotation = BasicModel.RotateToFace(position, tower.GetPosition(), new Vector3(0, 0, 1));
             base.Update(gameTime);
@@ -58,6 +60,14 @@ namespace ass1 {
         ///</summary>
         public float GetSpeed() {
             return this.speed;
+        }
+
+        /// <summary>
+        /// Gets the current velocity vector
+        /// </summary>
+        /// <returns>The velocity of the tank</returns>
+        public Vector3 GetVelocityVector() {
+            return position - prevPosition;
         }
     }
 }

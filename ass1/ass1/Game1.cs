@@ -181,13 +181,14 @@ namespace ass1 {
 
             if (distance != null) {
                 Vector3 pickedPosition = nearPoint + direction * (float)distance;
+                
 
-                worldModelManager.selectionCube.ChangeSelectionPosition(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
+                worldModelManager.selectionCube.ChangeSelectionPosition(PickedPositionTranslation(pickedPosition));
                 //Debug.WriteLine("Cube position is now: X: " + pickedPosition.X + " Y: " + -pickedPosition.Z + " Z: " + pickedPosition.Y);
                 //CREATION OF THE TURRET ON CLICK
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released) {
                     if (player.HasSuffucientMoney(Turret.COST)) {
-                        worldModelManager.CreateTurret(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
+                        worldModelManager.CreateTurret(PickedPositionTranslation(pickedPosition));
                         player.SpendMoney(Turret.COST);
                     } else {
                         //Player does not have enough money for turret
@@ -196,7 +197,12 @@ namespace ass1 {
                 }
 
                 if (mouseState.RightButton == ButtonState.Pressed & prevMouseState.RightButton == ButtonState.Released) {
-                    worldModelManager.CreateWall(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
+                    //worldModelManager.CreateWall(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
+                    Debug.WriteLine(pickedPosition.ToString());
+                    Tile currentMouseOverTile = grid.GetTile(PickedPositionTranslation(pickedPosition));
+                    if (currentMouseOverTile != null) {
+                        Debug.WriteLine(currentMouseOverTile.ToString());
+                    }
                 } 
 
             }
@@ -229,6 +235,15 @@ namespace ass1 {
             prevKeyboardState = ks;
             if(pause ==false && !gameOver)
             base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Private helper method to conver the mouse picked position to the global coordinate system
+        /// </summary>
+        /// <param name="pickedPosition">The picked position of the mouse</param>
+        /// <returns>The fix to fit the global coordinate system</returns>
+        private Vector3 PickedPositionTranslation(Vector3 pickedPosition) {
+            return new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y);
         }
 
         /// <summary>

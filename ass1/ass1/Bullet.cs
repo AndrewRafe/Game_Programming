@@ -34,15 +34,25 @@ namespace ass1 {
             this.speed = 250.0f;
             damage = 100;
             this.tower = tower;
-            CreateDirectionOfTravel();
+            CreateDirectionOfTravel(gameTime);
         }
         
         /// <summary>
         /// Determines the direction that the bullet is going to travel
         /// </summary>
-        private void CreateDirectionOfTravel() {
-            directionOfTravel = Vector3.Normalize(targetEnemy.GetPosition() - position);
+        private void CreateDirectionOfTravel(GameTime gameTime) {
+            //prediction accuracy is based off the distance between the start position and the enemy
+            //The closer the enemy the lower the prediction accuracy must be
+            directionOfTravel = Vector3.Normalize(Behavior.PredictTargetPosition(targetEnemy.GetPosition(), targetEnemy.GetVelocityVector(), gameTime, CalculatePredictionAccuracy()) - position);
         } 
+
+        /// <summary>
+        /// The algorithm used to calculate the accuracy variable for the prediction of the moving enemy
+        /// </summary>
+        /// <returns></returns>
+        private int CalculatePredictionAccuracy() {
+            return (int)Vector3.Distance(position, targetEnemy.GetPosition())/10 * 2;
+        }
 
         /// <summary>
         /// Updates the position of the bullet based on its current trajectory
