@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
+namespace TowerDefence {
     /// <summary>
     /// Class to show the player where they are about to build
     /// on the map. Inherits from the BasicModel class

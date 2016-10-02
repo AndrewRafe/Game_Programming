@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
+namespace TowerDefence {
     class Wall : Building {
 
         public Wall(Model m, Vector3 position, int health) : base(m, position, health) {

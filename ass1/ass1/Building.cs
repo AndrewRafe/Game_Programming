@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
+namespace TowerDefence {
     class Building : BasicModel {
 
         public int health { get; protected set; }

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
 
-namespace ass1 {
+namespace TowerDefence {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -39,7 +39,7 @@ namespace ass1 {
         private SoundEffectInstance sirenInstance;
 
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
         BasicEffect effect;
         WorldModelManager worldModelManager;
 
@@ -66,9 +66,9 @@ namespace ass1 {
         /// </summary>
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.PreferredBackBufferWidth = 1920;
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
 
             Content.RootDirectory = "Content";
             gameOver = false;
@@ -81,11 +81,11 @@ namespace ass1 {
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize() {
-
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(this, new Vector3(0, 200, 75), Vector3.Zero, Vector3.Up);
             Components.Add(camera);
 
-            worldModelManager = new WorldModelManager(this);
+            worldModelManager = new WorldModelManager(this, graphics);
             Components.Add(worldModelManager);
 
             player = new Player(this);
@@ -127,7 +127,7 @@ namespace ass1 {
         /// </summary>
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            
 
             effect = new BasicEffect(GraphicsDevice);
 
@@ -363,6 +363,10 @@ namespace ass1 {
 
         public void InvalidTurretPlacement() {
             player.GiveMoney(Turret.COST);
+        }
+
+        public static Vector3 CorrectedVector(Vector3 vector) {
+            return new Vector3(vector.X, -vector.Z, -vector.Y);
         }
 
     }

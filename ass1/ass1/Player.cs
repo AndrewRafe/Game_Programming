@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
+namespace TowerDefence {
     class Player {
 
         public static double STARTING_MONEY = 300.0;

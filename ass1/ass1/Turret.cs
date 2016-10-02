@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
+namespace TowerDefence {
     /// <summary>
     /// A base class for a turret
     /// A turret inherits from a basic model class
@@ -42,7 +42,7 @@ namespace ass1 {
         public Turret(Model m, Vector3 position, Model bullet, WorldModelManager worldModelManager) : base(m, position) {
             this.bullet = bullet;
             this.worldModelManager = worldModelManager;
-            bullets = new ModelManager(worldModelManager.Game);
+            bullets = new ModelManager(worldModelManager.Game, worldModelManager.graphics);
             lastFired = 0;
             Enemy closestEnemy = worldModelManager.GetClosestEnemy(position);
             if (closestEnemy != null) {

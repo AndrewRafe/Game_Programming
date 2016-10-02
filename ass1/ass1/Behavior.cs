@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
+namespace TowerDefence {
     /// <summary>
     /// A variety of static behaviors to be used by non controllable characters
     /// </summary>

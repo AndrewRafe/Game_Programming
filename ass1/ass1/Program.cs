@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ass1 {
+namespace TowerDefence {
 #if WINDOWS || LINUX
     /// <summary>
     /// The main class.

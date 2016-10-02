@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 
-namespace ass1 {
+namespace TowerDefence {
     /// <summary>
     /// The basic class for a model
     /// Contains methods to draw and load in a model
@@ -41,7 +41,7 @@ namespace ass1 {
         /// Basic draw method for a generic model object
         /// </summary>
         /// <param name="camera"></param>
-        public virtual void Draw(Camera camera) {
+        public virtual void Draw(Camera camera, GraphicsDeviceManager graphics) {
 
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);

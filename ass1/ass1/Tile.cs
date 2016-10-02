@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
+namespace TowerDefence {
     /// <summary>
     /// Holds information about a single tile in a grid including all of the tiles
     /// that are adjacent to this tile as well as some scoring information to be used

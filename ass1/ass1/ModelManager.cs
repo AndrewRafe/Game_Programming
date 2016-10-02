@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
+namespace TowerDefence {
     /// <summary>
     /// Basic model manager interface
     /// </summary>
@@ -19,13 +19,15 @@ namespace ass1 {
         /// </summary>
         public List<BasicModel> models = new List<BasicModel>();
 
+        public GraphicsDeviceManager graphics;
+
         /// <summary>
         /// Constructor method for the Model Manager
         /// Supplies the game to the superclass DrawableGameComponent
         /// </summary>
         /// <param name="game"></param>
-        public ModelManager(Game game) : base(game) {
-
+        public ModelManager(Game game, GraphicsDeviceManager graphics) : base(game) {
+            this.graphics = graphics;
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace ass1 {
         public override void Draw(GameTime gameTime) {
 
             foreach(BasicModel model in models) {
-                model.Draw(GetCamera());
+                model.Draw(GetCamera(), graphics);
             }
 
             base.Draw(gameTime);

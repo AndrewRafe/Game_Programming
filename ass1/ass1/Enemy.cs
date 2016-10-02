@@ -6,19 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
-    public class Enemy : BasicModel {
+namespace TowerDefence {
+    public class Enemy : BasicGameObject {
 
-        public int health { get; protected set; }
+        public static float MAX_HEALTH = 300.0f;
+        public static float MAX_DAMAGE = 10.0f;
+
         public double rewardForKilling { get; protected set; }
         public Vector3 prevPosition { get; private set; }
         Tower tower;
         float speed;
-        int damage;
 
-        public Enemy(Model m, Vector3 position, Tower tower, Game1 game) : base(m, position) {
+        public Enemy(Model m, Vector3 position, float maxHealth, float maxDamage, Texture2D healthBarTexture, Tower tower, Game1 game) : base(m, position, maxHealth, maxDamage, healthBarTexture, game.spriteBatch) {
             this.tower = tower;
-            this.health = 300;
+            this.maxHealth = maxHealth;
+            this.maxDamage = maxDamage;
             this.speed = (float) game.rand.Next(50, 100);
             if (game.waveNumber <= 4) {
                 this.rewardForKilling = 5.0;
@@ -29,7 +31,6 @@ namespace ass1 {
             } else {
                 this.rewardForKilling = 0.5;
             }
-            this.damage = 10;
         }
 
         public virtual void Initiate() {
@@ -47,12 +48,12 @@ namespace ass1 {
             base.Update(gameTime);
         }
 
-        public int GetDamage() {
-            return this.damage;
+        public float GetDamage() {
+            return this.maxDamage;
         }
 
         public void DamageEnemy(int damage) {
-            health -= damage;
+            DamageObject(damage);
         }
 
         ///<summary>

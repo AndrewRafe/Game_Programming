@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ass1 {
+namespace TowerDefence {
     /// <summary>
     /// A more specific model manager class which keeps track of various aspects of the world
     /// variables by storing globally static objects and also storing seperate model managers
@@ -40,12 +40,12 @@ namespace ass1 {
         /// objects in the game.
         /// </summary>
         /// <param name="game"></param>
-        public WorldModelManager(Game1 game) : base(game) {
+        public WorldModelManager(Game1 game, GraphicsDeviceManager graphics) : base(game, graphics) {
             prevMouseState = Mouse.GetState();
-            enemies = new ModelManager(game);
-            allTurrets = new ModelManager(game);
-            turretsToBeDrawn = new ModelManager(game);
-            walls = new ModelManager(game);
+            enemies = new ModelManager(game, graphics);
+            allTurrets = new ModelManager(game, graphics);
+            turretsToBeDrawn = new ModelManager(game, graphics);
+            walls = new ModelManager(game, graphics);
             this.game = game;
         }
 
@@ -79,13 +79,13 @@ namespace ass1 {
                 enemy.Update(gameTime);
                 //If an enemy collides with the tower, the tower takes damage and the enemy is destroyed
                 if (enemy.CollidesWith(tower.model, tower.GetWorldMatrix())) {
-                    tower.DamageTower(enemy.GetDamage());
+                    tower.DamageTower((int) enemy.GetDamage());
                     toBeKilled.Add(enemy);
                 }
 
                 foreach (Turret turret in turretsToBeDrawn.models) {
                     if (enemy.CollidesWith(turret.model, turret.GetWorldMatrix())) {
-                        turret.DamageTurret(enemy.GetDamage());
+                        turret.DamageTurret((int) enemy.GetDamage());
                         toBeKilled.Add(enemy);
                         if (turret.health <= 0) {
                             turretsToBeDestroyed.Add(turret);
@@ -106,7 +106,7 @@ namespace ass1 {
                         if (bullet.CollidesWith(enemy.model, enemy.GetWorldMatrix())) {
                             enemy.DamageEnemy(bullet.damage);
                             bulletsToBeDestroyed.Add(bullet);
-                            if (enemy.health <= 0) {
+                            if (enemy.IsDead()) {
                                 toBeKilled.Add(enemy);
                                 game.EnemyKilled(enemy.rewardForKilling);
                             }
@@ -165,7 +165,8 @@ namespace ass1 {
         public void CreateEnemy() {
 
             Enemy enemy = new Enemy(Game.Content.Load<Model>(@"Models\Enemy\enemy"), 
-                new Vector3(rand.Next(-Game1.WORLD_BOUNDS_WIDTH/2, Game1.WORLD_BOUNDS_WIDTH/2), -Game1.WORLD_BOUNDS_HEIGHT/2, MODEL_OFFSET), tower, game);
+                new Vector3(rand.Next(-Game1.WORLD_BOUNDS_WIDTH/2, Game1.WORLD_BOUNDS_WIDTH/2), -Game1.WORLD_BOUNDS_HEIGHT/2, MODEL_OFFSET),
+                Enemy.MAX_HEALTH, Enemy.MAX_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game);
             enemies.models.Add(enemy);
         }
 
