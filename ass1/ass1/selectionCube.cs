@@ -18,8 +18,8 @@ namespace TowerDefence {
         /// <summary>
         /// Constructor method for the selection cube sub class
         /// </summary>
-        /// <param name="m"></param>
-        /// <param name="position"></param>
+        /// <param name="m">A model</param>
+        /// <param name="position">The position of the model</param>
         public SelectionCube(Model m, Vector3 position) : base(m,position) {
 
         }
@@ -27,7 +27,7 @@ namespace TowerDefence {
         /// <summary>
         /// Updates the position attribute of the selection cube
         /// </summary>
-        /// <param name="newPosition"></param>
+        /// <param name="newPosition">The position to be updated to</param>
         public void ChangeSelectionPosition(Vector3 newPosition) {
             position = newPosition;
             

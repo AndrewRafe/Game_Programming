@@ -22,11 +22,11 @@ namespace TowerDefence {
             this.maxHealth = maxHealth;
             this.maxDamage = maxDamage;
             this.speed = (float) game.rand.Next(50, 100);
-            if (game.waveNumber <= 4) {
+            if (game.currentWave.waveNumber <= 4) {
                 this.rewardForKilling = 5.0;
-            } else if (game.waveNumber <= 6) {
+            } else if (game.currentWave.waveNumber <= 6) {
                 this.rewardForKilling = 2.0;
-            } else if (game.waveNumber <= 8) {
+            } else if (game.currentWave.waveNumber <= 8) {
                 this.rewardForKilling = 1.0;
             } else {
                 this.rewardForKilling = 0.5;

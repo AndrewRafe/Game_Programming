@@ -60,3 +60,6 @@ F:\MonoGame Workspace\Game_Programming\ass1\ass1\obj\x86\Debug\ass1.exe
 F:\MonoGame Workspace\Game_Programming\ass1\ass1\obj\x86\Debug\ass1.pdb
 F:\MonoGame Workspace\Game_Programming\ass1\ass1\obj\x86\Debug\TowerDefence.csprojResolveAssemblyReference.cache
 F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\HealthTexture.xnb
+F:\MonoGame Workspace\Game_Programming\TowerDefence\TowerDefence\obj\x86\Debug\ass1.exe
+F:\MonoGame Workspace\Game_Programming\TowerDefence\TowerDefence\obj\x86\Debug\ass1.pdb
+F:\MonoGame Workspace\Game_Programming\TowerDefence\TowerDefence\obj\x86\Debug\TowerDefence.csprojResolveAssemblyReference.cache

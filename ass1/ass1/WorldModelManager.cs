@@ -220,7 +220,7 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="position"></param>
         public void CreateWall(Vector3 position) {
-            walls.models.Add(new Wall(game.Content.Load<Model>(@"Models\Buildings\wall"), position, 100));
+           
         }
 
         /// <summary>

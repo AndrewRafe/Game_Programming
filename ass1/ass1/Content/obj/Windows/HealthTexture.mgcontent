@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>F:/MonoGame Workspace/Game_Programming/ass1/ass1/Content/HealthTexture.png</SourceFile>
-  <SourceTime>2016-10-02T13:22:02.6979317+11:00</SourceTime>
+  <SourceTime>2016-10-02T14:11:00.9003853+11:00</SourceTime>
   <DestFile>F:/MonoGame Workspace/Game_Programming/ass1/ass1/Content/bin/Windows/HealthTexture.xnb</DestFile>
-  <DestTime>2016-10-02T13:41:41.0411966+11:00</DestTime>
+  <DestTime>2016-10-03T13:15:28.9363093+11:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

@@ -30,25 +30,51 @@ namespace TowerDefence {
             healthBar = new HealthBar(healthBarTexture, spriteBatch);
         }
 
+        /// <summary>
+        /// Update method for the basic game object that updates the basic model
+        /// and also updates any health bar information associated to it.
+        /// </summary>
+        /// <param name="gameTime">A reference to the game time</param>
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
             //Update the position of the health bar on the object
-            healthBar.Update(currentHealth / maxHealth);
+            if (healthBar != null) {
+                healthBar.Update(currentHealth / maxHealth);
+            }
             
         }
 
+        /// <summary>
+        /// Draws the basic model and then draws the health bar in the correct position for 
+        /// the object position
+        /// </summary>
+        /// <param name="camera">A reference to the main camera</param>
+        /// <param name="graphics">A reference to the graphics device manager
+        /// to allow for the drawing of the health bar to the screen</param>
         public override void Draw(Camera camera, GraphicsDeviceManager graphics) {
             base.Draw(camera, graphics);
-            //Draw health bar
-            Vector3 objectScreenPosition = graphics.GraphicsDevice.Viewport.Project(Game1.CorrectedVector(position), camera.projection, camera.view, world);
-            healthBar.SetScreenPosition(new Vector2(objectScreenPosition.X - BAR_OFFSET_SIDE, objectScreenPosition.Y - BAR_OFFSET_TOP));
-            healthBar.Draw(camera);
+            if (healthBar != null) {
+                //Draw health bar
+                Vector3 objectPosition = Game1.PickedPositionTranslation(position);
+                //Object position z axis has to be flipped for health bar
+                Vector3 objectScreenPosition = graphics.GraphicsDevice.Viewport.Project(new Vector3(objectPosition.X, objectPosition.Y, -objectPosition.Z), camera.projection, camera.view, world);
+                healthBar.SetScreenPosition(new Vector2(objectScreenPosition.X - BAR_OFFSET_SIDE, objectScreenPosition.Y - BAR_OFFSET_TOP));
+                healthBar.Draw(camera);
+            }
         }
 
+        /// <summary>
+        /// Will make the object lose the given amount of health
+        /// </summary>
+        /// <param name="damage">The amount of damage that the object will take</param>
         public void DamageObject(float damage) {
             this.currentHealth -= damage;
         }
 
+        /// <summary>
+        /// Will determine if this current game object has been destroyed/killed
+        /// </summary>
+        /// <returns>Whether the object is destroyed or not</returns>
         public bool IsDead() {
             if (this.currentHealth <= 0) {
                 return true;

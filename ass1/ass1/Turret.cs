@@ -24,7 +24,6 @@ namespace TowerDefence {
         protected float fireRate;
         protected Model bullet;
         protected String name;
-        protected String description;
 
         private WorldModelManager worldModelManager;
 

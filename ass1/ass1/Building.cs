@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TowerDefence {
-    class Building : BasicModel {
+    class Building : BasicGameObject {
 
-        public int health { get; protected set; }
+        //The tile that the building is on
+        public Tile onTile { get; private set; }
 
-        public Building(Model m, Vector3 position, int health) : base(m, position) {
-            this.health = health;
+        public Building(Model m, Vector3 position, float maxHealth, float maxDamage, Texture2D healthBarTexture, SpriteBatch spriteBatch) : base(m, position, maxHealth, maxDamage, healthBarTexture, spriteBatch) {
+
         }
 
     }

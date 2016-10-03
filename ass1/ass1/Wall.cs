@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TowerDefence {
-    class Wall : Building {
+    class Wall {
 
-        public Wall(Model m, Vector3 position, int health) : base(m, position, health) {
+        public Wall(Model m, Vector3 position, int health) {
 
         }
 
