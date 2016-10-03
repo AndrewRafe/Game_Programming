@@ -10,7 +10,7 @@ namespace TowerDefence {
     /// <summary>
     /// Will hold a description of a grid square for the map
     /// </summary>
-    class Grid {
+    public class Grid {
 
         //A list of tiles that are in the grid
         public List<Tile> tiles { get; private set; }
@@ -62,7 +62,7 @@ namespace TowerDefence {
                     return tile;
                 }
             }
-            return null;
+            return GetTile(Vector2.Zero);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace TowerDefence {
             for (int i = -width/2; i < width/2; i++) {
                 for (int j = height/2; j > -height/2; j--) {
                     tiles.Add(new Tile(new Vector3(i * Game1.TILE_SIZE + centerPosition.X,
-                        0, j * Game1.TILE_SIZE + centerPosition.Y), new Vector2(i, j)));
+                        j * Game1.TILE_SIZE + centerPosition.Y, 0), new Vector2(i, j)));
                 }
             }
             GenerateAdjacency(true);
@@ -107,6 +107,15 @@ namespace TowerDefence {
                 returnString += tile.ToString() + "\n";
             }
             return returnString;
+        }
+
+        /// <summary>
+        /// Will reset all the pathfinding costs for every tile in the grid
+        /// </summary>
+        public void ResetTileCosts() {
+            foreach (Tile tile in tiles) {
+                tile.ResetCost();
+            }
         }
 
     }

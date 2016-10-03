@@ -29,8 +29,7 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="newPosition">The position to be updated to</param>
         public void ChangeSelectionPosition(Vector3 newPosition) {
-            position = newPosition;
-            
+            position = newPosition;  
         }
 
         /// <summary>

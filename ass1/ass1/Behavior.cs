@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,7 +81,6 @@ namespace TowerDefence {
         }
 
         //TODO: ASTAR PATHFINDING IMPLEMENTATION
-        /*
         public static LinkedList<Tile> AStarPathFinding(Tile currentTile, Tile destinationTile, Grid grid) {
             grid.ResetTileCosts();
             LinkedList<Tile> closedSet = new LinkedList<Tile>();
@@ -113,7 +113,7 @@ namespace TowerDefence {
                         continue;
                     }
 
-                    tentativeGScore = current.gScore + Vector2.Distance(current.gridPosition, tile.gridPosition);
+                    tentativeGScore = current.gScore + Vector2.Distance(current.localPosition, tile.localPosition);
                     if (!(openSet.Contains(tile))) {
                         openSet.AddLast(tile);
                     }
@@ -146,9 +146,8 @@ namespace TowerDefence {
         }
         
         private static float Heuristic(Tile currentTile, Tile destinationTile) {
-            return (Vector2.Distance(currentTile.gridPosition, destinationTile.gridPosition));
+            return (Vector2.Distance(currentTile.localPosition, destinationTile.localPosition));
         }
-        */
 
     }
 }

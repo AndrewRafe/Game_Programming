@@ -19,8 +19,8 @@ namespace TowerDefence {
 
         public Wave currentWave;
 
-        public static int WORLD_BOUNDS_WIDTH = 1000;
-        public static int WORLD_BOUNDS_HEIGHT = 1000;
+        public static int WORLD_BOUNDS_WIDTH = 1500;
+        public static int WORLD_BOUNDS_HEIGHT = 1500;
         public static float TILE_SIZE = 50.0f;
 
         private int timeMinutes;
@@ -85,14 +85,15 @@ namespace TowerDefence {
             camera = new Camera(this, new Vector3(0, 200, 75), Vector3.Zero, Vector3.Up);
             Components.Add(camera);
 
-            worldModelManager = new WorldModelManager(this, graphics);
+            grid = new Grid(Vector3.Zero, WORLD_BOUNDS_WIDTH / (int)TILE_SIZE,
+                (int)WORLD_BOUNDS_HEIGHT / (int)TILE_SIZE);
+            Debug.WriteLine(grid.ToString());
+            worldModelManager = new WorldModelManager(this, graphics, grid);
             Components.Add(worldModelManager);
 
             player = new Player(this);
 
-            grid = new Grid(Vector3.Zero, WORLD_BOUNDS_WIDTH / (int)TILE_SIZE, 
-                (int) WORLD_BOUNDS_HEIGHT / (int)TILE_SIZE);
-            Debug.WriteLine(grid.ToString());
+            
 
             prevMouseState = Mouse.GetState();
 

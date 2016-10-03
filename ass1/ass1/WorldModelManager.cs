@@ -24,6 +24,7 @@ namespace TowerDefence {
         public Turret towerTurret;
 
         Game1 game;
+        Grid grid;
 
         //Stores the state of the mouse in the previous frame
         MouseState prevMouseState;
@@ -40,13 +41,14 @@ namespace TowerDefence {
         /// objects in the game.
         /// </summary>
         /// <param name="game"></param>
-        public WorldModelManager(Game1 game, GraphicsDeviceManager graphics) : base(game, graphics) {
+        public WorldModelManager(Game1 game, GraphicsDeviceManager graphics, Grid grid) : base(game, graphics) {
             prevMouseState = Mouse.GetState();
             enemies = new ModelManager(game, graphics);
             allTurrets = new ModelManager(game, graphics);
             turretsToBeDrawn = new ModelManager(game, graphics);
             walls = new ModelManager(game, graphics);
             this.game = game;
+            this.grid = grid;
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace TowerDefence {
             models.Add(ground);
             selectionCube = new SelectionCube(Game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(0, 0, MODEL_OFFSET));
             models.Add(selectionCube);
-            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT/2 - MODEL_OFFSET, MODEL_OFFSET), game);
+            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT/3 - MODEL_OFFSET, MODEL_OFFSET), game);
             models.Add(tower);
             towerTurret = new Turret(Game.Content.Load<Model>(@"Models\Turrets\cannon2"), tower.GetPosition(), Game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this);
             allTurrets.models.Add(towerTurret);
@@ -165,8 +167,8 @@ namespace TowerDefence {
         public void CreateEnemy() {
 
             Enemy enemy = new Enemy(Game.Content.Load<Model>(@"Models\Enemy\enemy"), 
-                new Vector3(rand.Next(-Game1.WORLD_BOUNDS_WIDTH/2, Game1.WORLD_BOUNDS_WIDTH/2), -Game1.WORLD_BOUNDS_HEIGHT/2, MODEL_OFFSET),
-                Enemy.MAX_HEALTH, Enemy.MAX_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game);
+                new Vector3(rand.Next(-Game1.WORLD_BOUNDS_WIDTH/3, Game1.WORLD_BOUNDS_WIDTH/3), -Game1.WORLD_BOUNDS_HEIGHT/3, MODEL_OFFSET),
+                Enemy.MAX_HEALTH, Enemy.MAX_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game, grid);
             enemies.models.Add(enemy);
         }
 

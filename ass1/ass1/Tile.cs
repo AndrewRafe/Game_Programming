@@ -11,12 +11,14 @@ namespace TowerDefence {
     /// that are adjacent to this tile as well as some scoring information to be used
     /// by a graph search algorithm
     /// </summary>
-    class Tile {
+    public class Tile {
+
+        public static float INFINITY = 1000000.0f;
 
         //Attributes for use in search algorithm
-        public float gScore { get; private set; }
-        public float fScore { get; private set; }
-        public Tile cameFrom { get; private set; }
+        public float gScore;
+        public float fScore;
+        public Tile cameFrom;
 
         public List<Tile> adjacentTiles { get; private set; }
         public Vector3 globalPosition { get; private set; }
@@ -116,6 +118,28 @@ namespace TowerDefence {
                 s += "(" + tile.localPosition.X + ", " + tile.localPosition.Y + ") --> ";
             }
             return s;
+        }
+
+        /// <summary>
+        /// Will reset all the pathfinding costs for this tile
+        /// </summary>
+        public void ResetCost() {
+            this.gScore = INFINITY;
+            this.fScore = INFINITY;
+            this.cameFrom = null;
+        }
+
+        /// <summary>
+        /// Determines whether a given global position is close enough to the center of this tile
+        /// </summary>
+        /// <returns></returns>
+        public bool IsAtCenter(Vector3 objectPosition) {
+            if (Math.Abs(objectPosition.X - globalPosition.X) <= 10 &&
+                    Math.Abs(objectPosition.Y - globalPosition.Y) <= 10) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
     }
