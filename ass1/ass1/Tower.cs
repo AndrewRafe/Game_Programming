@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace TowerDefence
 {
-    public class Tower : BasicModel 
+    public class Tower : Building 
     {
-        protected int health;
-        protected String name;
-        protected String description;
+
+        public static float DEFAULT_TOWER_HEALTH = 1000.0f;
 
         Game1 game;
 
@@ -24,7 +23,7 @@ namespace TowerDefence
         /// <param name="m"></param>
         /// <param name="position"></param>
 
-        public Tower(Model m, Vector3 position, Game1 game) : base(m, position) {
+        public Tower(Model m, Vector3 position, Game1 game, float maxHealth, float maxDamage, Texture2D healthBarTexture, SpriteBatch spriteBatch, Tile builtOnTile) : base(m, position, maxHealth, maxDamage, healthBarTexture, spriteBatch, builtOnTile) {
             //Debug.WriteLine("Turret created at X: " + position.X + " Y: " + position.Y + " Z: " + position.Z);
             this.game = game;
             Initiate();
@@ -36,9 +35,7 @@ namespace TowerDefence
         /// </summary>
         protected virtual void Initiate()
         {
-            name = "Main Tower";
-            description = "The Main Tower - USED FOR TESTING";
-            health = 100;
+
         }
 
         /// <summary>
@@ -53,29 +50,16 @@ namespace TowerDefence
         }
 
         /// <summary>
-        /// Will return the amount of damage of the tower
-        /// </summary>
-        public int GetTowerHealth()
-        {
-            return health;
-        }
-
-        /// <summary>
         /// Will increase the amount of the tower
         /// </summary>
-        public void DamageTower(int damage)
+        public void DamageTower(float damage)
         {
-
+            DamageObject(damage);
             game.TowerTakesDamage();
-
-            if (health - damage <= 0 ) {
-                health = 0;
+            if (IsDead()) {
+                currentHealth = 0;
                 TowerDestroyed();
-            } else {
-                health -= damage;
-            }
-
-            if (health <= 20) {
+            } else if (currentHealth <= maxHealth * 0.2) {
                 game.TowerDangerHealth();
             }
         }
@@ -86,7 +70,7 @@ namespace TowerDefence
         /// <param name="spriteBatch">A reference to the sprite batch from the game</param>
         /// <param name="font">The SpriteFont that will be used for the text</param>
         public void DrawText(SpriteBatch spriteBatch, SpriteFont font) {
-            String text = "Tower Health: " + this.health;
+            String text = "Tower Health: " + currentHealth;
             Vector2 textCenter = font.MeasureString(text)/2;
             spriteBatch.DrawString(font, text, new Vector2(game.SCREEN_WIDTH/2, 40), Game1.TEXT_COLOR, 0, textCenter, 1.0f, SpriteEffects.None, 0.5f);
         }

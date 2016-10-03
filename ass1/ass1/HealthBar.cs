@@ -26,9 +26,11 @@ namespace TowerDefence {
         }
 
         public void Draw(Camera camera) {
-            spriteBatch.Begin();
-            spriteBatch.Draw(barTexture, bar, Color.White);
-            spriteBatch.End();
+            if (barTexture != null) {
+                spriteBatch.Begin();
+                spriteBatch.Draw(barTexture, bar, Color.White);
+                spriteBatch.End();
+            }
         }
 
         public void Update(float healthPercentage) {

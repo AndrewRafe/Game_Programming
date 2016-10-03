@@ -10,7 +10,7 @@ namespace TowerDefence {
     public class Enemy : BasicGameObject {
 
         public static float MAX_HEALTH = 300.0f;
-        public static float MAX_DAMAGE = 10.0f;
+        public static float MAX_DAMAGE = 100.0f;
 
         private LinkedList<Tile> path;
         private Grid grid;
@@ -26,13 +26,13 @@ namespace TowerDefence {
             this.maxDamage = maxDamage;
             this.speed = (float) game.rand.Next(50, 100);
             if (game.currentWave.waveNumber <= 4) {
-                this.rewardForKilling = 5.0;
+                this.rewardForKilling = 10.0;
             } else if (game.currentWave.waveNumber <= 6) {
-                this.rewardForKilling = 2.0;
+                this.rewardForKilling = 5.0;
             } else if (game.currentWave.waveNumber <= 8) {
-                this.rewardForKilling = 1.0;
+                this.rewardForKilling = 2.0;
             } else {
-                this.rewardForKilling = 0.5;
+                this.rewardForKilling = 1;
             }
 
             this.grid = grid;
@@ -74,7 +74,7 @@ namespace TowerDefence {
             return this.maxDamage;
         }
 
-        public void DamageEnemy(int damage) {
+        public void DamageEnemy(float damage) {
             DamageObject(damage);
         }
 

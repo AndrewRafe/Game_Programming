@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 namespace TowerDefence {
     /// <summary>
     /// A class that stores basic information about a game object that has health and damage
+    /// A null healthBarTexture is passed to this class if you dont want the basic game object to 
+    /// display its health status
     /// attributes
     /// </summary>
     public class BasicGameObject : BasicModel {
@@ -27,7 +29,12 @@ namespace TowerDefence {
             this.currentHealth = maxHealth;
             this.maxDamage = maxDamage;
 
-            healthBar = new HealthBar(healthBarTexture, spriteBatch);
+            if (healthBarTexture != null) {
+                healthBar = new HealthBar(healthBarTexture, spriteBatch);
+            } else {
+                healthBar = null;
+            }
+            
         }
 
         /// <summary>

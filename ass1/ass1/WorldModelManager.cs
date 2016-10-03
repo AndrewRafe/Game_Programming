@@ -60,9 +60,9 @@ namespace TowerDefence {
             models.Add(ground);
             selectionCube = new SelectionCube(Game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(0, 0, MODEL_OFFSET));
             models.Add(selectionCube);
-            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT/3 - MODEL_OFFSET, MODEL_OFFSET), game);
+            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), grid.GetTile(new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT / 3 - MODEL_OFFSET, MODEL_OFFSET)).globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Turret.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT / 3 - MODEL_OFFSET, MODEL_OFFSET)));
             models.Add(tower);
-            towerTurret = new Turret(Game.Content.Load<Model>(@"Models\Turrets\cannon2"), tower.GetPosition(), Game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this);
+            towerTurret = new Turret(Game.Content.Load<Model>(@"Models\Turrets\cannon2"), tower.GetPosition(), Game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this, Game1.BASIC_TURRET_RANGE, Tower.DEFAULT_TOWER_HEALTH, Turret.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(tower.GetPosition()));
             allTurrets.models.Add(towerTurret);
             
             CreateEnemy();
@@ -181,8 +181,10 @@ namespace TowerDefence {
                 game.InvalidTurretPlacement();
                 return;
             }
+            Tile placementTile = grid.GetTile(position);
             Turret turret = new Turret(game.Content.Load<Model>(@"Models\Turrets\cannon2"), new Vector3(position.X, position.Y, position.Z + MODEL_OFFSET), 
-                game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this);
+                game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this, Game1.BASIC_TURRET_RANGE, Turret.DEFAULT_HEALTH, Turret.DEFAULT_DAMAGE, null, game.spriteBatch,
+                placementTile);
             foreach (Turret otherTurret in allTurrets.models) {
                 if (otherTurret.CollidesWith(turret.model, turret.GetWorldMatrix())) {
                     game.InvalidTurretPlacement();

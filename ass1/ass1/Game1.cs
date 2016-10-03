@@ -21,7 +21,9 @@ namespace TowerDefence {
 
         public static int WORLD_BOUNDS_WIDTH = 1500;
         public static int WORLD_BOUNDS_HEIGHT = 1500;
-        public static float TILE_SIZE = 50.0f;
+        public static float TILE_SIZE = 25.0f;
+
+        public static float BASIC_TURRET_RANGE = 500.0f;
 
         private int timeMinutes;
         private int timeMilliseconds;
@@ -67,8 +69,8 @@ namespace TowerDefence {
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.PreferredBackBufferWidth = 1900;
 
             Content.RootDirectory = "Content";
             gameOver = false;
@@ -164,12 +166,12 @@ namespace TowerDefence {
             Vector3 pickedPosition = this.PickedPosition();
             MouseState mouseState = Mouse.GetState();
             KeyboardState ks = Keyboard.GetState();
-            worldModelManager.selectionCube.ChangeSelectionPosition(PickedPositionTranslation(pickedPosition));
+            worldModelManager.selectionCube.ChangeSelectionPosition(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
             //Debug.WriteLine("Cube position is now: X: " + pickedPosition.X + " Y: " + -pickedPosition.Z + " Z: " + pickedPosition.Y);
             //CREATION OF THE TURRET ON CLICK
             if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released) {
                 if (player.HasSuffucientMoney(Turret.COST)) {
-                    worldModelManager.CreateTurret(PickedPositionTranslation(pickedPosition));
+                    worldModelManager.CreateTurret(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
                     player.SpendMoney(Turret.COST);
                 }
                 else {
@@ -241,7 +243,6 @@ namespace TowerDefence {
             if (currentWave.waveNumber == 1) {
                 Tutorial();
             }
-            
             GraphicsDevice.BlendState = BlendState.Opaque;
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
         }

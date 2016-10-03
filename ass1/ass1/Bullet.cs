@@ -12,7 +12,7 @@ namespace TowerDefence {
     /// </summary>
     class Bullet : BasicModel {
 
-        public int damage { get; private set; }
+        public float damage { get; private set; }
 
         private Vector3 directionOfTravel;
 
@@ -29,10 +29,10 @@ namespace TowerDefence {
         /// <param name="targetEnemy">The enemy that the bullet is directed at</param>
         /// <param name="tower">The tower needed to be protected</param>
         /// <param name="gameTime">A reference to the game time</param>
-        public Bullet(Model m, Vector3 position, Enemy targetEnemy, Tower tower, GameTime gameTime) : base(m, position) {
+        public Bullet(Model m, Vector3 position, Enemy targetEnemy, Tower tower, GameTime gameTime, float damage) : base(m, position) {
             this.targetEnemy = targetEnemy;
             this.speed = 250.0f;
-            damage = 100;
+            this.damage = damage;
             this.tower = tower;
             CreateDirectionOfTravel(gameTime);
         }

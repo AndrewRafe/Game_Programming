@@ -12,9 +12,11 @@ namespace TowerDefence {
     /// A base class for a turret
     /// A turret inherits from a basic model class
     /// </summary>
-    class Turret : BasicModel {
+    class Turret : Building {
 
         public static int COST = 100;
+        public static float DEFAULT_DAMAGE = 100.0f;
+        public static float DEFAULT_HEALTH = 200.0f;
 
         public ModelManager bullets;
 
@@ -24,6 +26,7 @@ namespace TowerDefence {
         protected float fireRate;
         protected Model bullet;
         protected String name;
+        protected float range;
 
         private WorldModelManager worldModelManager;
 
@@ -38,7 +41,7 @@ namespace TowerDefence {
         /// <param name="m"></param>
         /// <param name="position"></param>
         /// <param name="bullet"></param>
-        public Turret(Model m, Vector3 position, Model bullet, WorldModelManager worldModelManager) : base(m, position) {
+        public Turret(Model m, Vector3 position, Model bullet, WorldModelManager worldModelManager, float range, float maxHealth, float maxDamage, Texture2D healthBarTexture, SpriteBatch spriteBatch, Tile builtOnTile) : base(m, position, maxHealth, maxDamage, healthBarTexture, spriteBatch, builtOnTile) {
             this.bullet = bullet;
             this.worldModelManager = worldModelManager;
             bullets = new ModelManager(worldModelManager.Game, worldModelManager.graphics);
@@ -49,7 +52,7 @@ namespace TowerDefence {
             } else {
                 rotation = RotateToFace(position, new Vector3(0, -Game1.WORLD_BOUNDS_HEIGHT, 0), new Vector3(0,0,1));
             }
-            
+            this.range = range;
             //Debug.WriteLine("Turret created at X: " + position.X + " Y: " + position.Y + " Z: " + position.Z);
             Initiate();
         }
@@ -62,6 +65,10 @@ namespace TowerDefence {
             health = 10;
             fireRate = 1.5f;
             name = "Basic Turret";
+        }
+
+        public override void Draw(Camera camera, GraphicsDeviceManager graphics) {
+            base.Draw(camera, graphics);
         }
 
         /// <summary>
@@ -79,12 +86,12 @@ namespace TowerDefence {
                 rotation = BasicModel.RotateToFace(position, worldModelManager.GetClosestEnemy(position).GetPosition(),
                         new Vector3(0, 0, 1));
             }
-            
 
-            if (lastFired > fireRate * 1000.0f && worldModelManager.GetClosestEnemy(position) != null) {
+            Enemy closestEnemy = worldModelManager.GetClosestEnemy(position);
+            if (lastFired > fireRate * 1000.0f && closestEnemy != null && Vector3.Distance(position, closestEnemy.GetPosition()) <= range) {
                 if (worldModelManager.enemies.models.Count <= 0) {
                 } else {
-                    bullets.models.Add(new Bullet(bullet, this.position, worldModelManager.GetClosestEnemy(position), worldModelManager.tower, gameTime));
+                    bullets.models.Add(new Bullet(bullet, this.position, closestEnemy, worldModelManager.tower, gameTime, maxDamage));
                     worldModelManager.CannonFire();
                     lastFired = 0;
                 }
