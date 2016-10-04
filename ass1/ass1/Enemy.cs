@@ -15,7 +15,7 @@ namespace TowerDefence {
         private LinkedList<Tile> path;
         private Grid grid;
 
-        public double rewardForKilling { get; protected set; }
+        public float rewardForKilling { get; protected set; }
         public Vector3 prevPosition { get; private set; }
         Tower tower;
         float speed;
@@ -26,11 +26,11 @@ namespace TowerDefence {
             this.maxDamage = maxDamage;
             this.speed = (float) game.rand.Next(50, 100);
             if (game.currentWave.waveNumber <= 4) {
-                this.rewardForKilling = 10.0;
+                this.rewardForKilling = 10.0f;
             } else if (game.currentWave.waveNumber <= 6) {
-                this.rewardForKilling = 5.0;
+                this.rewardForKilling = 5.0f;
             } else if (game.currentWave.waveNumber <= 8) {
-                this.rewardForKilling = 2.0;
+                this.rewardForKilling = 2.0f;
             } else {
                 this.rewardForKilling = 1;
             }

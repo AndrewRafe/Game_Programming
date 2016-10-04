@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace TowerDefence {
     class Player {
 
-        public static double STARTING_MONEY = 300.0;
+        public static float STARTING_MONEY = 300.0f;
 
-        public double money;
+        public float money;
         Game1 game;
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="cost"></param>
         /// <returns></returns>
-        public bool HasSuffucientMoney(int cost) {
+        public bool HasSuffucientMoney(float cost) {
             if (money - cost >= 0) {
                 return true;
             } else {
@@ -42,7 +42,7 @@ namespace TowerDefence {
         /// Deducts a given amount of money from the players current money
         /// </summary>
         /// <param name="cost"></param>
-        public void SpendMoney(double cost) {
+        public void SpendMoney(float cost) {
             money -= cost;
         }
 
@@ -50,7 +50,7 @@ namespace TowerDefence {
         /// Will give the player the given amount of money
         /// </summary>
         /// <param name="reward"></param>
-        public void GiveMoney(double reward) {
+        public void GiveMoney(float reward) {
             money += reward;
         }
 

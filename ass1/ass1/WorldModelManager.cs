@@ -156,6 +156,7 @@ namespace TowerDefence {
             enemies.Draw(gameTime);
             turretsToBeDrawn.Draw(gameTime);
             towerTurret.bullets.Draw(gameTime);
+            walls.Draw(gameTime);
             foreach (Turret turret in allTurrets.models) {
                 turret.bullets.Draw(gameTime);
             }
@@ -224,7 +225,24 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="position"></param>
         public void CreateWall(Vector3 position) {
-           
+            if (position.X > Game1.WORLD_BOUNDS_WIDTH / 2 || position.X < -Game1.WORLD_BOUNDS_WIDTH / 2 || position.Y > Game1.WORLD_BOUNDS_HEIGHT / 2 || position.Y < -Game1.WORLD_BOUNDS_HEIGHT / 2) {
+                game.InvalidTurretPlacement();
+                return;
+            }
+            Tile placementTile = grid.GetTile(position);
+            Wall wall = new Wall(game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(position.X, position.Y, position.Z + MODEL_OFFSET),
+                Wall.DEFAULT_HEALTH, Wall.DEFAULT_DAMAGE, null, game.spriteBatch,
+                placementTile);
+            foreach (Wall otherWall in walls.models) {
+                if (otherWall.CollidesWith(wall.model, wall.GetWorldMatrix())) {
+                    game.InvalidWallPlacement();
+                    return;
+                }
+            }
+            placementTile.MakeUnwalkable();
+            ResetEnemyPath();
+            walls.models.Add(wall);
+
         }
 
         /// <summary>
@@ -232,6 +250,12 @@ namespace TowerDefence {
         /// </summary>
         public void CannonFire() {
             game.CannonFire();
+        }
+
+        public void ResetEnemyPath() {
+            foreach (Enemy enemy in enemies.models) {
+                enemy.UpdatePath(grid.GetTile(tower.GetPosition()));
+            }
         }
         
     }

@@ -180,12 +180,16 @@ namespace TowerDefence {
 
             }
 
-            if (mouseState.RightButton == ButtonState.Pressed & prevMouseState.RightButton == ButtonState.Released) {
+            if (mouseState.RightButton == ButtonState.Pressed) {
                 //worldModelManager.CreateWall(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
                 Debug.WriteLine(pickedPosition.ToString());
                 Tile currentMouseOverTile = grid.GetTile(PickedPositionTranslation(pickedPosition));
                 if (currentMouseOverTile != null) {
                     Debug.WriteLine(currentMouseOverTile.ToString());
+                }
+                if (player.HasSuffucientMoney(Wall.DEFAULT_COST)) {
+                    worldModelManager.CreateWall(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
+                    player.SpendMoney(Wall.DEFAULT_COST);
                 }
             }
 
@@ -203,7 +207,7 @@ namespace TowerDefence {
                     timeMinutes++;
                     timeMilliseconds = 0;
                     int newWaveNumber = currentWave.waveNumber + 1;
-                    int newSpawnRate = currentWave.spawnRate / (currentWave.waveNumber * currentWave.waveNumber);
+                    int newSpawnRate = currentWave.spawnRate / currentWave.waveNumber;
                     currentWave = new Wave(newWaveNumber, newSpawnRate);
                 }
             }
@@ -260,7 +264,7 @@ namespace TowerDefence {
         /// Is called when a player has killed an enemy
         /// </summary>
         /// <param name="rewardForKilled"></param>
-        public void EnemyKilled(double rewardForKilled) {
+        public void EnemyKilled(float rewardForKilled) {
             player.GiveMoney(rewardForKilled);
             enemyDeath.Play();
             enemiesKilled++;
@@ -288,6 +292,10 @@ namespace TowerDefence {
 
         public void InvalidTurretPlacement() {
             player.GiveMoney(Turret.COST);
+        }
+
+        public void InvalidWallPlacement() {
+            player.GiveMoney(Wall.DEFAULT_COST);
         }
 
         /// <summary>
