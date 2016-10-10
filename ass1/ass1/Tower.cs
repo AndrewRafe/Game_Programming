@@ -13,6 +13,7 @@ namespace TowerDefence
     {
 
         public static float DEFAULT_TOWER_HEALTH = 1000.0f;
+        public static float DEFAULT_DAMAGE = 1000.0f;
 
         Game1 game;
 
@@ -50,21 +51,6 @@ namespace TowerDefence
         }
 
         /// <summary>
-        /// Will increase the amount of the tower
-        /// </summary>
-        public void DamageTower(float damage)
-        {
-            DamageObject(damage);
-            game.TowerTakesDamage();
-            if (IsDead()) {
-                currentHealth = 0;
-                TowerDestroyed();
-            } else if (currentHealth <= maxHealth * 0.2) {
-                game.TowerDangerHealth();
-            }
-        }
-
-        /// <summary>
         /// Draws the tower health text to the screen
         /// </summary>
         /// <param name="spriteBatch">A reference to the sprite batch from the game</param>
@@ -80,6 +66,17 @@ namespace TowerDefence
         /// </summary>
         public void TowerDestroyed() {
             game.GameOver();
+        }
+
+        public override void DamageObject(float damage) {
+            base.DamageObject(damage);
+            game.TowerTakesDamage();
+            if (currentHealth <= (maxHealth*0.2)) {
+                game.TowerDangerHealth();
+            }
+            if (currentHealth <= 0) {
+                TowerDestroyed();
+            }
         }
     }
 }

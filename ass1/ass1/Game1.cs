@@ -19,9 +19,9 @@ namespace TowerDefence {
 
         public Wave currentWave;
 
-        public static int WORLD_BOUNDS_WIDTH = 1500;
-        public static int WORLD_BOUNDS_HEIGHT = 1500;
-        public static float TILE_SIZE = 25.0f;
+        public static int WORLD_BOUNDS_WIDTH = 1000;
+        public static int WORLD_BOUNDS_HEIGHT = 1000;
+        public static float TILE_SIZE = 50.0f;
 
         public static float BASIC_TURRET_RANGE = 500.0f;
 
@@ -40,7 +40,7 @@ namespace TowerDefence {
         private Song backgroundMusic;
         private SoundEffectInstance sirenInstance;
 
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics { get; private set; }
         public SpriteBatch spriteBatch;
         BasicEffect effect;
         WorldModelManager worldModelManager;
@@ -69,8 +69,8 @@ namespace TowerDefence {
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 1000;
-            graphics.PreferredBackBufferWidth = 1900;
+            graphics.PreferredBackBufferHeight = 500;
+            graphics.PreferredBackBufferWidth = 950;
 
             Content.RootDirectory = "Content";
             gameOver = false;
@@ -88,7 +88,7 @@ namespace TowerDefence {
             Components.Add(camera);
 
             grid = new Grid(Vector3.Zero, WORLD_BOUNDS_WIDTH / (int)TILE_SIZE,
-                (int)WORLD_BOUNDS_HEIGHT / (int)TILE_SIZE);
+                (int)WORLD_BOUNDS_HEIGHT / (int)TILE_SIZE, this);
             Debug.WriteLine(grid.ToString());
             worldModelManager = new WorldModelManager(this, graphics, grid);
             Components.Add(worldModelManager);
@@ -166,32 +166,42 @@ namespace TowerDefence {
             Vector3 pickedPosition = this.PickedPosition();
             MouseState mouseState = Mouse.GetState();
             KeyboardState ks = Keyboard.GetState();
-            worldModelManager.selectionCube.ChangeSelectionPosition(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
-            //Debug.WriteLine("Cube position is now: X: " + pickedPosition.X + " Y: " + -pickedPosition.Z + " Z: " + pickedPosition.Y);
-            //CREATION OF THE TURRET ON CLICK
-            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released) {
-                if (player.HasSuffucientMoney(Turret.COST)) {
-                    worldModelManager.CreateTurret(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
-                    player.SpendMoney(Turret.COST);
-                }
-                else {
-                    //Player does not have enough money for turret
+            try {
+                worldModelManager.selectionCube.ChangeSelectionPosition(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
+            } catch (NullReferenceException) {
+                Debug.WriteLine("Mouse outside world bounds");
+            }
+            
+            try {
+                //Debug.WriteLine("Cube position is now: X: " + pickedPosition.X + " Y: " + -pickedPosition.Z + " Z: " + pickedPosition.Y);
+                //CREATION OF THE TURRET ON CLICK
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released) {
+                    if (player.HasSuffucientMoney(Turret.COST)) {
+                        worldModelManager.CreateTurret(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
+                        player.SpendMoney(Turret.COST);
+                    }
+                    else {
+                        //Player does not have enough money for turret
+                    }
+
                 }
 
-            }
-
-            if (mouseState.RightButton == ButtonState.Pressed) {
-                //worldModelManager.CreateWall(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
-                Debug.WriteLine(pickedPosition.ToString());
-                Tile currentMouseOverTile = grid.GetTile(PickedPositionTranslation(pickedPosition));
-                if (currentMouseOverTile != null) {
-                    Debug.WriteLine(currentMouseOverTile.ToString());
+                if (mouseState.RightButton == ButtonState.Pressed) {
+                    //worldModelManager.CreateWall(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
+                    Debug.WriteLine(pickedPosition.ToString());
+                    Tile currentMouseOverTile = grid.GetTile(PickedPositionTranslation(pickedPosition));
+                    if (currentMouseOverTile != null) {
+                        Debug.WriteLine(currentMouseOverTile.ToString());
+                    }
+                    if (player.HasSuffucientMoney(Wall.DEFAULT_COST)) {
+                        worldModelManager.CreateWall(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
+                        player.SpendMoney(Wall.DEFAULT_COST);
+                    }
                 }
-                if (player.HasSuffucientMoney(Wall.DEFAULT_COST)) {
-                    worldModelManager.CreateWall(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
-                    player.SpendMoney(Wall.DEFAULT_COST);
-                }
+            } catch (NullReferenceException) {
+                Debug.WriteLine("Tried to build outside world bounds. That is not allowed");
             }
+            
 
             prevMouseState = mouseState;
 

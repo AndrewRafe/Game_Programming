@@ -11,7 +11,7 @@ namespace TowerDefence {
     /// The ground plane of the world
     /// Inherits from the basic model class
     /// </summary>
-    class Ground : BasicModel {
+    public class Ground : BasicModel {
 
 
         //A plane that specifies the level that the ground plane is on

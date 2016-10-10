@@ -66,6 +66,14 @@ namespace TowerDefence {
             base.Draw(gameTime);
         }
 
+        public void AddModel(BasicModel model) {
+            models.Add(model);
+        }
+
+        public void RemoveModel(BasicModel model) {
+            models.Remove(model);
+        }
+
         /// <summary>
         /// Helper method to retrieve the camera from the game class
         /// </summary>

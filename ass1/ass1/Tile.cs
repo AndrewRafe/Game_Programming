@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,12 +19,21 @@ namespace TowerDefence {
         //Attributes for use in search algorithm
         public float gScore;
         public float fScore;
+
         public Tile cameFrom;
+
+        public List<BasicGameObject> modelsOnTile { get; private set; }
+
+        public List<Building> buildingsOnTile { get; private set; }
+        public List<Enemy> enemiesOnTile { get; private set; }
+        public Turret turretOnTile { get; private set; }
+        public List<Bullet> bulletsOnTile { get; private set; }
 
         public List<Tile> adjacentTiles { get; private set; }
         public Vector3 globalPosition { get; private set; }
         public Vector2 localPosition { get; private set; }
         public bool isWalkable { get; private set; }
+        public Grid grid { get; private set; }
 
         /// <summary>
         /// Constructor method for the tile class that will assign its center global
@@ -31,11 +41,16 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="globalPosition">The center position of the tile</param>
         /// <param name="localPosition">The position relative to the rest of the grid</param>
-        public Tile(Vector3 globalPosition, Vector2 localPosition) {
+        public Tile(Vector3 globalPosition, Vector2 localPosition, Grid grid) {
             adjacentTiles = new List<Tile>();
             this.globalPosition = globalPosition;
             this.localPosition = localPosition;
             isWalkable = true;
+            buildingsOnTile = new List<Building>();
+            enemiesOnTile = new List<Enemy>();
+            turretOnTile = null;
+            bulletsOnTile = new List<Bullet>();
+            this.grid = grid;
         }
 
         /// <summary>
@@ -69,14 +84,15 @@ namespace TowerDefence {
             adjacentTiles = new List<Tile>();
             //Set the isWalkable attribute to be false
             isWalkable = false;
+            //Tell the grid that this is an obstacle tile
+            
         }
 
         //TODO: Implement MakeWalkable method
         /// <summary>
         /// Makes this tile walkable and adds its adjacencies back to the grid
         /// </summary>
-        /// <param name="grid">A reference to the grid</param>
-        public void MakeWalkable(Grid grid) {
+        public void MakeWalkable() {
             Tile adjacentTile;
             foreach (Tile tile in grid.tiles) {
                 for (int i = -1; i <= 1; i++) {
@@ -139,6 +155,211 @@ namespace TowerDefence {
                 return true;
             } else {
                 return false;
+            }
+        }
+        
+        public void DrawTile() {
+            foreach(Enemy enemy in enemiesOnTile) {
+                enemy.Draw(grid.game.camera, grid.game.graphics);
+            }
+
+            if (turretOnTile != null) {
+                
+                turretOnTile.Draw(grid.game.camera, grid.game.graphics);
+                Debug.WriteLine("Turret Exists");
+            } else {
+                
+            }
+            
+            
+            foreach(Building building in buildingsOnTile) {
+                building.Draw(grid.game.camera, grid.game.graphics);
+            }
+
+            foreach(Bullet bullet in bulletsOnTile) {
+                bullet.Draw(grid.game.camera, grid.game.graphics);
+            }
+
+        }
+
+        public void AddEnemyToTile(Enemy enemy) {
+            enemiesOnTile.Add(enemy);
+            
+        }
+
+        public void RemoveEnemyFromTile(Enemy enemy) {
+            enemiesOnTile.Remove(enemy);
+        }
+
+        public void AddBulletToTile(Bullet bullet) {
+            bulletsOnTile.Add(bullet);
+        }
+
+        public void RemoveBulletFromTile(Bullet bullet) {
+            bulletsOnTile.Remove(bullet);
+        }
+
+        public void AddTurretToTile(Turret turret) {
+            turretOnTile = turret;
+        }
+
+        public void RemoveTurretFromTile(Turret turret) {
+            turretOnTile = null;
+        }
+
+        public void AddBuildingToTile(Building building) {
+            buildingsOnTile.Add(building);
+        }
+
+        public void HandleTile(GameTime gameTime) {
+            TurretLogic(gameTime);
+            EnemyLogic(gameTime);
+            BulletLogic(gameTime);
+        }
+
+        /// <summary>
+        /// The logic of all the turrets in the game world
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void TurretLogic(GameTime gameTime) {
+
+            try {
+                if (turretOnTile != null) {
+                    turretOnTile.Update(gameTime);
+                    if (turretOnTile.IsDead()) {
+                        buildingsOnTile.Remove(turretOnTile);
+                        turretOnTile = null;
+                        grid.game.TurretDestroyed();
+                    }
+                    if (grid.allEnemies.Count <= 0) {
+                        return;
+                    }
+                    else {
+                        Enemy closestEnemy = null;
+                        foreach (Enemy enemy in grid.allEnemies) {
+                            if (closestEnemy == null) {
+                                closestEnemy = enemy;
+                                continue;
+                            }
+                            else {
+                                if (Vector3.Distance(turretOnTile.GetPosition(), closestEnemy.GetPosition()) > Vector3.Distance(turretOnTile.GetPosition(), enemy.GetPosition())) {
+                                    closestEnemy = enemy;
+                                }
+                            }
+                        }
+
+                        if (turretOnTile.isReadyToFire && closestEnemy != null && Vector3.Distance(closestEnemy.GetPosition(),turretOnTile.GetPosition()) <= turretOnTile.range) {
+                            Debug.WriteLine("Ready to fire");
+                            bulletsOnTile.Add(turretOnTile.FireTurret(closestEnemy, gameTime, grid));
+                            grid.game.CannonFire();
+                        }
+
+                        turretOnTile.FaceEnemy(closestEnemy);
+                        
+                    }
+                }
+            }
+            catch (NullReferenceException) {
+
+
+            }
+
+        }
+
+        /// <summary>
+        /// The logic of a single frame for the enemy on this tile
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void EnemyLogic(GameTime gameTime) {
+            List<Enemy> enemiesToBeKilled = new List<Enemy>();
+            List<Enemy> survivingEnemies = new List<Enemy>();
+            foreach (Enemy enemy in enemiesOnTile) {
+                //If an enemy collides with the tower, the tower takes damage and the enemy is destroyed
+                foreach (Building building in buildingsOnTile) {
+                    if (enemy.CollidesWith(building.model, building.GetWorldMatrix())) {
+                        building.DamageObject(enemy.maxDamage);
+                        enemy.DamageObject(building.maxDamage);
+                    }
+                }
+                if (turretOnTile!=null && enemy.CollidesWith(turretOnTile.model, turretOnTile.GetWorldMatrix())) {
+                    turretOnTile.DamageObject(enemy.maxDamage);
+                    if (turretOnTile.IsDead()) {
+                        //turretOnTile = null;
+                        grid.game.TurretDestroyed();
+                    }
+                    enemy.DamageObject(enemy.currentHealth);
+                }
+
+                if (enemy.IsDead()) {
+                    enemiesToBeKilled.Add(enemy);
+                    grid.RemoveEnemy(enemy);
+                } else {
+                    survivingEnemies.Add(enemy);
+                }
+            }
+
+            foreach(Enemy enemy in enemiesToBeKilled) {
+                enemiesOnTile.Remove(enemy);
+            }
+            foreach(Enemy enemy in survivingEnemies) {
+                enemy.Update(gameTime);
+            }
+
+        }
+
+        public void ResetEnemyPath() {
+            foreach (Enemy enemy in enemiesOnTile) {
+                enemy.UpdatePath(enemy.targetTile);
+            }
+        }
+
+        public void BulletLogic(GameTime gameTime) {
+            Tile currentBulletTile;
+            List<Bullet> toBeRemoved = new List<Bullet>();
+            List<Enemy> toBeKilled = new List<Enemy>();
+            foreach (Bullet bullet in bulletsOnTile) {
+                bullet.Update(gameTime);
+                currentBulletTile = bullet.getCurrentTile(grid);
+                if (currentBulletTile == null) {
+                    toBeRemoved.Add(bullet);
+                    
+                } else if (currentBulletTile != this) {
+                    currentBulletTile.AddBulletToTile(bullet);
+                    toBeRemoved.Add(bullet);
+                }
+
+
+                foreach (Enemy enemy in enemiesOnTile) {
+                    if (bullet.CollidesWith(enemy.model, enemy.GetWorldMatrix())) {
+                        enemy.DamageObject(bullet.damage);
+                        if (enemy.IsDead()) {
+                            grid.game.EnemyKilled(enemy.rewardForKilling);
+                        }
+                        toBeRemoved.Add(bullet);
+                        break;
+                    }
+                }
+                //Check the surrounding tiles for collision as well
+                if (!toBeRemoved.Contains(bullet)) {
+                    foreach (Tile tile in adjacentTiles) {
+                        foreach (Enemy enemy in tile.enemiesOnTile) {
+                            if (bullet.CollidesWith(enemy.model, enemy.GetWorldMatrix())) {
+                                enemy.DamageObject(bullet.damage);
+                                if (enemy.IsDead()) {
+                                    grid.game.EnemyKilled(enemy.rewardForKilling);
+                                }
+                                toBeRemoved.Add(bullet);
+                                break;
+                            }
+                        }
+                        if (toBeRemoved.Contains(bullet)) break;
+                    }
+                }
+
+            }
+
+            foreach (Bullet bullet in toBeRemoved) {
+                bulletsOnTile.Remove(bullet);
             }
         }
 

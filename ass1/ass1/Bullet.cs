@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,15 +11,18 @@ namespace TowerDefence {
     /// <summary>
     /// Bullet class to maintain the position and the characteristics of a bullet
     /// </summary>
-    class Bullet : BasicModel {
+    public class Bullet : BasicModel {
 
         public float damage { get; private set; }
 
         private Vector3 directionOfTravel;
 
+        Tile onTile;
+
         public float speed { get; private set; }
         public Enemy targetEnemy { get; private set; }
-        public Tower tower { get; private set; }
+
+        private Grid grid;
 
         /// <summary>
         /// Constructor method for the bullet class
@@ -29,11 +33,13 @@ namespace TowerDefence {
         /// <param name="targetEnemy">The enemy that the bullet is directed at</param>
         /// <param name="tower">The tower needed to be protected</param>
         /// <param name="gameTime">A reference to the game time</param>
-        public Bullet(Model m, Vector3 position, Enemy targetEnemy, Tower tower, GameTime gameTime, float damage) : base(m, position) {
+        public Bullet(Model m, Vector3 position, Enemy targetEnemy, float damage, GameTime gameTime, Grid grid) : base(m, position) {
+            Debug.WriteLine("BULLET CREATED");
             this.targetEnemy = targetEnemy;
-            this.speed = 250.0f;
+            this.speed = 150.0f;
             this.damage = damage;
-            this.tower = tower;
+            onTile = grid.GetTile(position);
+            onTile.AddBulletToTile(this);
             CreateDirectionOfTravel(gameTime);
         }
         
@@ -51,7 +57,7 @@ namespace TowerDefence {
         /// </summary>
         /// <returns></returns>
         private int CalculatePredictionAccuracy() {
-            return (int)Vector3.Distance(position, targetEnemy.GetPosition())/10 * 2;
+            return (int)Vector3.Distance(position, targetEnemy.GetPosition())/5 * 2;
         }
 
         /// <summary>
@@ -70,27 +76,18 @@ namespace TowerDefence {
         private Vector3 EstimateCurrentPosition(GameTime gameTime)
         {
             Vector3 enemyCurrentPosition = targetEnemy.GetPosition();
-            Vector3 enemyTargetPosition = tower.GetPosition();
+            Vector3 enemyTargetPosition = targetEnemy.targetTile.globalPosition;
             //float distance = Vector3.Distance(currentPosition, targetPosition);
             Vector3 direction = Vector3.Normalize(enemyTargetPosition - enemyCurrentPosition);
             Vector3 updatedPosition = direction * targetEnemy.GetSpeed() * gameTime.ElapsedGameTime.Milliseconds / 1000;
             return updatedPosition;
         }
 
-        /*
-        private void CreateDirectionOfTravel(GameTime gameTime)
-        {
-            directionOfTravel = Vector3.Normalize(EstimateCurrentPosition(gameTime) - position);
-        } */
-        
-
-        /*
-        public override void Update(GameTime gameTime)
-        {
-            //CreateDirectionOfTravel(gameTime);
-            this.position += directionOfTravel * speed * gameTime.ElapsedGameTime.Milliseconds / 1000;
-            base.Update(gameTime);
-        } */
+        public Tile getCurrentTile(Grid grid) {
+            Tile tile = grid.GetTile(position);
+            onTile = tile;
+            return tile;
+        }
         
     }
 }

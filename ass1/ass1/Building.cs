@@ -13,7 +13,13 @@ namespace TowerDefence {
         public Tile onTile { get; private set; }
 
         public Building(Model m, Vector3 position, float maxHealth, float maxDamage, Texture2D healthBarTexture, SpriteBatch spriteBatch, Tile builtOnTile) : base(m, position, maxHealth, maxDamage, healthBarTexture, spriteBatch) {
+            builtOnTile.AddBuildingToTile(this);
             onTile = builtOnTile;
+        }
+
+        public override void DamageObject(float damage) {
+            base.DamageObject(damage);
+
         }
 
     }

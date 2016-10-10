@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,9 +15,15 @@ namespace TowerDefence {
 
         //A list of tiles that are in the grid
         public List<Tile> tiles { get; private set; }
+
+        public LinkedList<Tile> obstacleTiles { get; private set; }
+        public List<Enemy> allEnemies { get; private set; }
+
         public Vector3 centerPosition { get; private set; }
         public int width { get; private set; }
         public int height { get; private set; }
+
+        public Game1 game { get; private set; }
 
         /// <summary>
         /// Constructor method for the grid which assigns the center position and set
@@ -25,11 +32,14 @@ namespace TowerDefence {
         /// <param name="centerPosition">The center position of the grid</param>
         /// <param name="width">The number of tiles wide</param>
         /// <param name="height">The number of tiles high</param>
-        public Grid(Vector3 centerPosition, int width, int height) {
+        public Grid(Vector3 centerPosition, int width, int height, Game1 game) {
             tiles = new List<Tile>();
+            obstacleTiles = new LinkedList<Tile>();
             this.centerPosition = centerPosition;
             this.height = height;
             this.width = width;
+            this.game = game;
+            allEnemies = new List<Enemy>();
             GenerateGrid();
         }
 
@@ -37,7 +47,7 @@ namespace TowerDefence {
         /// Returns the tile represented by the given local 2d coordinates
         /// </summary>
         /// <param name="tileLocalPosition">The local 2D position of the tile</param>
-        /// <returns>The tile at the given local coordinates or nul;</returns>
+        /// <returns>The tile at the given local coordinates or null</returns>
         public Tile GetTile(Vector2 tileLocalPosition) {
             foreach (Tile tile in tiles) {
                 if (tile.localPosition.X == tileLocalPosition.X &&
@@ -62,17 +72,18 @@ namespace TowerDefence {
                     return tile;
                 }
             }
-            return GetTile(Vector2.Zero);
+            return null;
         }
 
         /// <summary>
         /// Helper method to construct the grid based on the attribute values
         /// </summary>
         private void GenerateGrid() {
-            for (int i = -width/2; i < width/2; i++) {
-                for (int j = height/2; j > -height/2; j--) {
-                    tiles.Add(new Tile(new Vector3(i * Game1.TILE_SIZE + centerPosition.X,
-                        j * Game1.TILE_SIZE + centerPosition.Y, 0), new Vector2(i, j)));
+            for (int i = -width/2 - 1; i < width/2 + 1; i++) {
+                for (int j = height/2 + 1; j > -height/2 - 1; j--) {
+                    Tile tileToAdd = new Tile(new Vector3(i * Game1.TILE_SIZE + centerPosition.X,
+                        j * Game1.TILE_SIZE + centerPosition.Y, 0), new Vector2(i, j), this);
+                    tiles.Add(tileToAdd);
                 }
             }
             GenerateAdjacency(true);
@@ -116,6 +127,42 @@ namespace TowerDefence {
             foreach (Tile tile in tiles) {
                 tile.ResetCost();
             }
+        }
+
+        public void AddObstacleTile (Tile tile) {
+            obstacleTiles.AddLast(tile);
+            tile.MakeUnwalkable();
+        }
+
+        public void RemoveObstacleTile(Tile tile) {
+            obstacleTiles.Remove(tile);
+            tile.MakeWalkable();
+        }
+
+        public void HandleTiles(GameTime gameTime) {
+            foreach (Tile tile in tiles) {
+                tile.HandleTile(gameTime);
+            }
+        }
+
+        public void DrawTiles() {
+            foreach (Tile tile in tiles) {
+                tile.DrawTile();
+            }
+        }
+
+        public void ResetEnemyPath() {
+            foreach(Tile tile in tiles) {
+                tile.ResetEnemyPath();
+            }
+        }
+
+        public void AddEnemy(Enemy enemy) {
+            allEnemies.Add(enemy);
+        }
+
+        public void RemoveEnemy(Enemy enemy) {
+            allEnemies.Remove(enemy);
         }
 
     }

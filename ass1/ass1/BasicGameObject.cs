@@ -74,7 +74,7 @@ namespace TowerDefence {
         /// Will make the object lose the given amount of health
         /// </summary>
         /// <param name="damage">The amount of damage that the object will take</param>
-        public void DamageObject(float damage) {
+        public virtual void DamageObject(float damage) {
             this.currentHealth -= damage;
         }
 

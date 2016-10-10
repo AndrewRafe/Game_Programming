@@ -14,7 +14,7 @@ namespace TowerDefence {
     /// variables by storing globally static objects and also storing seperate model managers
     /// for the various categories of dynamic objects like enemies, turrets, etc.
     /// </summary>
-    class WorldModelManager : ModelManager {
+    public class WorldModelManager : ModelManager {
 
         public static int MODEL_OFFSET = 30;
 
@@ -24,17 +24,15 @@ namespace TowerDefence {
         public Turret towerTurret;
 
         Game1 game;
-        Grid grid;
+        public Grid grid;
 
         //Stores the state of the mouse in the previous frame
         MouseState prevMouseState;
 
         //Separate model managers to maintain the dynamic objects in the world
-        public ModelManager enemies;
-        public ModelManager turretsToBeDrawn;
-        public ModelManager allTurrets;
-        public ModelManager walls;
         Random rand = new Random();
+
+        List<Enemy> allEnemies;
 
         /// <summary>
         /// Constructor method that sets up the separate model managers for each of the dynamic
@@ -43,12 +41,9 @@ namespace TowerDefence {
         /// <param name="game"></param>
         public WorldModelManager(Game1 game, GraphicsDeviceManager graphics, Grid grid) : base(game, graphics) {
             prevMouseState = Mouse.GetState();
-            enemies = new ModelManager(game, graphics);
-            allTurrets = new ModelManager(game, graphics);
-            turretsToBeDrawn = new ModelManager(game, graphics);
-            walls = new ModelManager(game, graphics);
             this.game = game;
             this.grid = grid;
+            this.allEnemies = new List<Enemy>();
         }
 
         /// <summary>
@@ -60,10 +55,10 @@ namespace TowerDefence {
             models.Add(ground);
             selectionCube = new SelectionCube(Game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(0, 0, MODEL_OFFSET));
             models.Add(selectionCube);
-            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), grid.GetTile(new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT / 3 - MODEL_OFFSET, MODEL_OFFSET)).globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Turret.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT / 3 - MODEL_OFFSET, MODEL_OFFSET)));
+            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), grid.GetTile(new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT / 3 - MODEL_OFFSET, MODEL_OFFSET)).globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Tower.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT / 3 - MODEL_OFFSET, MODEL_OFFSET)));
             models.Add(tower);
-            towerTurret = new Turret(Game.Content.Load<Model>(@"Models\Turrets\cannon2"), tower.GetPosition(), Game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this, Game1.BASIC_TURRET_RANGE, Tower.DEFAULT_TOWER_HEALTH, Turret.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(tower.GetPosition()));
-            allTurrets.models.Add(towerTurret);
+            //towerTurret = new Turret(Game.Content.Load<Model>(@"Models\Turrets\cannon2"), tower.GetPosition(), Game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this, Game1.BASIC_TURRET_RANGE, Tower.DEFAULT_TOWER_HEALTH, Turret.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(tower.GetPosition()));
+            //allTurrets.models.Add(towerTurret);
             
             CreateEnemy();
             base.LoadContent();
@@ -75,75 +70,17 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime) {
-            List<Enemy> toBeKilled = new List<Enemy>();
-            List<Turret> turretsToBeDestroyed = new List<Turret>();
-            foreach (Enemy enemy in enemies.models) {
-                enemy.Update(gameTime);
-                //If an enemy collides with the tower, the tower takes damage and the enemy is destroyed
-                if (enemy.CollidesWith(tower.model, tower.GetWorldMatrix())) {
-                    tower.DamageTower((int) enemy.GetDamage());
-                    toBeKilled.Add(enemy);
-                }
-
-                foreach (Turret turret in turretsToBeDrawn.models) {
-                    if (enemy.CollidesWith(turret.model, turret.GetWorldMatrix())) {
-                        turret.DamageTurret((int) enemy.GetDamage());
-                        toBeKilled.Add(enemy);
-                        if (turret.health <= 0) {
-                            turretsToBeDestroyed.Add(turret);
-                            game.TurretDestroyed();
-                        }
-                    }
-                }
-
-            }
-
-
-            foreach (Turret turret in allTurrets.models) {
-                List<Bullet> bulletsToBeDestroyed = new List<Bullet>();
-                turret.Update(gameTime);
-                foreach (Bullet bullet in turret.bullets.models) {
-                    foreach (Enemy enemy in enemies.models) {
-                        //When a bullet collides with an enemy
-                        if (bullet.CollidesWith(enemy.model, enemy.GetWorldMatrix())) {
-                            enemy.DamageEnemy(bullet.damage);
-                            bulletsToBeDestroyed.Add(bullet);
-                            if (enemy.IsDead()) {
-                                toBeKilled.Add(enemy);
-                                game.EnemyKilled(enemy.rewardForKilling);
-                            }
-                        //If the bullet is outside the world bounds
-                        } else if (bullet.GetPosition().X > Game1.WORLD_BOUNDS_WIDTH/2 ||
-                            bullet.GetPosition().X < -Game1.WORLD_BOUNDS_WIDTH/2 ||
-                            bullet.GetPosition().Y > Game1.WORLD_BOUNDS_HEIGHT/2 ||
-                            bullet.GetPosition().Y < -Game1.WORLD_BOUNDS_HEIGHT/2) {
-
-                            bulletsToBeDestroyed.Add(bullet);
-
-                        }
-                    }
-                }
-
-                //Remove all bullets that collided this frame
-                foreach (Bullet bullet in bulletsToBeDestroyed) {
-                    turret.bullets.models.Remove(bullet);
-                }
-            }
-
-
-            //Kill all enemies that need to be killed
-            foreach (Enemy enemy in toBeKilled) {
-                enemies.models.Remove(enemy);
-            }
-
-            //Destroy all turrets that need to be destroyed
-            foreach (Turret turret in turretsToBeDestroyed) {
-                turretsToBeDrawn.models.Remove(turret);
-                allTurrets.models.Remove(turret);
-            }
-
-
             base.Update(gameTime);
+            grid.HandleTiles(gameTime);
+
+            /*toBeKilled = new List<Enemy>();
+            turretsToBeDestroyed = new List<Turret>();
+
+            EnemyLogic(gameTime);
+            TurretLogic(gameTime);
+            WallLogic();*/
+
+            
         }
 
         /// <summary>
@@ -153,24 +90,21 @@ namespace TowerDefence {
         /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime) {
             base.Draw(gameTime);
-            enemies.Draw(gameTime);
-            turretsToBeDrawn.Draw(gameTime);
-            towerTurret.bullets.Draw(gameTime);
-            walls.Draw(gameTime);
-            foreach (Turret turret in allTurrets.models) {
-                turret.bullets.Draw(gameTime);
-            }
+            ground.Draw(game.camera, game.graphics);
+            selectionCube.Draw(game.camera, game.graphics);
+            tower.Draw(game.camera, game.graphics);
+            grid.DrawTiles();
         }
 
         /// <summary>
         /// Creates an enemy model at a random location along the spawning zone
         /// </summary>
         public void CreateEnemy() {
-
+            Vector3 startingEnemyPosition = new Vector3(rand.Next(-Game1.WORLD_BOUNDS_WIDTH / 2, Game1.WORLD_BOUNDS_WIDTH / 2), -Game1.WORLD_BOUNDS_HEIGHT / 2, 0);
             Enemy enemy = new Enemy(Game.Content.Load<Model>(@"Models\Enemy\enemy"), 
-                new Vector3(rand.Next(-Game1.WORLD_BOUNDS_WIDTH/3, Game1.WORLD_BOUNDS_WIDTH/3), -Game1.WORLD_BOUNDS_HEIGHT/3, MODEL_OFFSET),
-                Enemy.MAX_HEALTH, Enemy.MAX_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game, grid);
-            enemies.models.Add(enemy);
+                startingEnemyPosition, Enemy.MAX_HEALTH, Enemy.MAX_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game, grid);
+            grid.GetTile(startingEnemyPosition).AddEnemyToTile(enemy);
+            grid.AddEnemy(enemy);
         }
 
         /// <summary>
@@ -183,17 +117,10 @@ namespace TowerDefence {
                 return;
             }
             Tile placementTile = grid.GetTile(position);
-            Turret turret = new Turret(game.Content.Load<Model>(@"Models\Turrets\cannon2"), new Vector3(position.X, position.Y, position.Z + MODEL_OFFSET), 
+            Turret turret = new Turret(game.Content.Load<Model>(@"Models\Turrets\cannon2"), new Vector3(position.X, position.Y, 0), 
                 game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this, Game1.BASIC_TURRET_RANGE, Turret.DEFAULT_HEALTH, Turret.DEFAULT_DAMAGE, null, game.spriteBatch,
                 placementTile);
-            foreach (Turret otherTurret in allTurrets.models) {
-                if (otherTurret.CollidesWith(turret.model, turret.GetWorldMatrix())) {
-                    game.InvalidTurretPlacement();
-                    return;
-                }
-            }
-            turretsToBeDrawn.models.Add(turret);
-            allTurrets.models.Add(turret);
+            placementTile.AddTurretToTile(turret);
         }
 
         /// <summary>
@@ -202,7 +129,7 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="currentPosition"></param>
         /// <returns>closestEnemy</returns>
-        public Enemy GetClosestEnemy(Vector3 currentPosition) {
+        /*public Enemy GetClosestEnemy(Vector3 currentPosition) {
             if (enemies.models.Count == 0) {
                 return null;
             }
@@ -219,7 +146,7 @@ namespace TowerDefence {
 
             return closestEnemy;
         }
-
+        */
         /// <summary>
         /// Creates a wall at a given position
         /// </summary>
@@ -230,18 +157,12 @@ namespace TowerDefence {
                 return;
             }
             Tile placementTile = grid.GetTile(position);
-            Wall wall = new Wall(game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(position.X, position.Y, position.Z + MODEL_OFFSET),
+            Wall wall = new Wall(game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(position.X, position.Y, position.Z),
                 Wall.DEFAULT_HEALTH, Wall.DEFAULT_DAMAGE, null, game.spriteBatch,
                 placementTile);
-            foreach (Wall otherWall in walls.models) {
-                if (otherWall.CollidesWith(wall.model, wall.GetWorldMatrix())) {
-                    game.InvalidWallPlacement();
-                    return;
-                }
-            }
-            placementTile.MakeUnwalkable();
-            ResetEnemyPath();
-            walls.models.Add(wall);
+            grid.AddObstacleTile(placementTile);
+            grid.ResetEnemyPath();
+            placementTile.AddBuildingToTile(wall);
 
         }
 
@@ -251,12 +172,5 @@ namespace TowerDefence {
         public void CannonFire() {
             game.CannonFire();
         }
-
-        public void ResetEnemyPath() {
-            foreach (Enemy enemy in enemies.models) {
-                enemy.UpdatePath(grid.GetTile(tower.GetPosition()));
-            }
-        }
-        
     }
 }

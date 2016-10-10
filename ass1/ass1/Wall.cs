@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TowerDefence {
-    class Wall : Building {
+    public class Wall : Building {
 
         public static float DEFAULT_COST = 0.0f;
-        public static float DEFAULT_DAMAGE = 0.0f;
-        public static float DEFAULT_HEALTH = 100.0f;
+        public static float DEFAULT_DAMAGE = 300.0f;
+        public static float DEFAULT_HEALTH = 1.0f;
 
         public float cost { get; private set; }
 

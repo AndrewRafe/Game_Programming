@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace TowerDefence {
 
         public float rewardForKilling { get; protected set; }
         public Vector3 prevPosition { get; private set; }
+        public Tile targetTile { get; private set; }
         Tower tower;
         float speed;
 
@@ -24,7 +26,7 @@ namespace TowerDefence {
             this.tower = tower;
             this.maxHealth = maxHealth;
             this.maxDamage = maxDamage;
-            this.speed = (float) game.rand.Next(50, 100);
+            this.speed = (float) game.rand.Next(20, 50);
             if (game.currentWave.waveNumber <= 4) {
                 this.rewardForKilling = 10.0f;
             } else if (game.currentWave.waveNumber <= 6) {
@@ -36,6 +38,7 @@ namespace TowerDefence {
             }
 
             this.grid = grid;
+            this.targetTile = grid.GetTile(tower.GetPosition());
             UpdatePath(grid.GetTile(tower.GetPosition()));
 
         }
@@ -56,7 +59,9 @@ namespace TowerDefence {
                 position = Behavior.StraightLineChase(this.position, currentTile.globalPosition, gameTime, speed);
                 rotation = BasicModel.RotateToFace(position, currentTile.globalPosition, Vector3.UnitZ);
                 if (currentTile.IsAtCenter(this.position)) {
+                    currentTile.RemoveEnemyFromTile(this);
                     path.RemoveFirst();
+                    path.First.Value.AddEnemyToTile(this);
                 }
             }
             //prevPosition = position;
@@ -65,9 +70,16 @@ namespace TowerDefence {
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Will use the astar behavior to create a path to the target
+        /// </summary>
+        /// <param name="targetGridDestination">The tile that the enemy is trying to get to</param>
         public void UpdatePath(Tile targetGridDestination) {
             path = Behavior.AStarPathFinding(grid.GetTile(position), targetGridDestination, grid);
-            
+            //If there is no path to the destination then call a handler function
+            if (path == null) {
+                //NoValidPath();
+            }
         }
 
         public float GetDamage() {
@@ -92,5 +104,25 @@ namespace TowerDefence {
         public Vector3 GetVelocityVector() {
             return position - prevPosition;
         }
+
+        /// <summary>
+        /// Handles the event that the enemy has no valid path to its destination
+        /// The enemy will randomly target walls until a path exists
+        /// TODO: FIX
+        /// </summary>
+        /*private void NoValidPath() {
+            //If it is stuck on a tile with a wall then damage the wall
+            Building buildingOnCurrentTile = grid.GetTile(position).AddModelToTile(;
+            Debug.WriteLine(position.ToString() + " AND GRID AT " + grid.GetTile(position).ToString());
+            if (buildingOnCurrentTile != null) {
+                buildingOnCurrentTile.DamageObject(this.maxDamage);
+                this.DamageObject(buildingOnCurrentTile.maxDamage);
+            }
+            Random rand = new Random();
+            while (path != null) {
+                path = Behavior.AStarPathFinding(grid.GetTile(position), grid.obstacleTiles.ElementAt(rand.Next(0,grid.obstacleTiles.Count - 1)), grid);
+            }
+            
+        }*/
     }
 }
