@@ -22,6 +22,7 @@ namespace TowerDefence {
         public SelectionCube selectionCube;
         public Tower tower;
         public Turret towerTurret;
+        public BasicModel tent;
 
         Game1 game;
         public Grid grid;
@@ -55,12 +56,11 @@ namespace TowerDefence {
             models.Add(ground);
             selectionCube = new SelectionCube(Game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(0, 0, MODEL_OFFSET));
             models.Add(selectionCube);
-            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), grid.GetTile(new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT / 3 - MODEL_OFFSET, MODEL_OFFSET)).globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Tower.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(new Vector3(0, Game1.WORLD_BOUNDS_HEIGHT / 3 - MODEL_OFFSET, MODEL_OFFSET)));
+            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT/2)).globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Tower.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT/2)));
             models.Add(tower);
-            //towerTurret = new Turret(Game.Content.Load<Model>(@"Models\Turrets\cannon2"), tower.GetPosition(), Game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this, Game1.BASIC_TURRET_RANGE, Tower.DEFAULT_TOWER_HEALTH, Turret.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(tower.GetPosition()));
-            //allTurrets.models.Add(towerTurret);
             
-            CreateEnemy();
+            
+            //CreateEnemy();
             base.LoadContent();
         }
 
@@ -100,7 +100,7 @@ namespace TowerDefence {
         /// Creates an enemy model at a random location along the spawning zone
         /// </summary>
         public void CreateEnemy() {
-            Vector3 startingEnemyPosition = new Vector3(rand.Next(-Game1.WORLD_BOUNDS_WIDTH / 2, Game1.WORLD_BOUNDS_WIDTH / 2), -Game1.WORLD_BOUNDS_HEIGHT / 2, 0);
+            Vector3 startingEnemyPosition = grid.GetTile(new Vector2(rand.Next(-Game1.WORLD_BOUNDS_WIDTH/2, Game1.WORLD_BOUNDS_WIDTH/2), -Game1.WORLD_BOUNDS_HEIGHT/2)).globalPosition;
             Enemy enemy = new Enemy(Game.Content.Load<Model>(@"Models\Enemy\enemy"), 
                 startingEnemyPosition, Enemy.MAX_HEALTH, Enemy.MAX_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game, grid);
             grid.GetTile(startingEnemyPosition).AddEnemyToTile(enemy);
@@ -112,11 +112,12 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="position"></param>
         public void CreateTurret(Vector3 position) {
-            if (position.X > Game1.WORLD_BOUNDS_WIDTH/2 || position.X < -Game1.WORLD_BOUNDS_WIDTH/2 || position.Y > Game1.WORLD_BOUNDS_HEIGHT/2 || position.Y < -Game1.WORLD_BOUNDS_HEIGHT/2) {
+            
+            Tile placementTile = grid.GetTile(new Vector2((int)position.X / Game1.TILE_SIZE, (int)position.Y/Game1.TILE_SIZE));
+            if (placementTile == null || placementTile.turretOnTile != null) {
                 game.InvalidTurretPlacement();
                 return;
             }
-            Tile placementTile = grid.GetTile(position);
             Turret turret = new Turret(game.Content.Load<Model>(@"Models\Turrets\cannon2"), new Vector3(position.X, position.Y, 0), 
                 game.Content.Load<Model>(@"Models\Turrets\Bullets\cannonBall"), this, Game1.BASIC_TURRET_RANGE, Turret.DEFAULT_HEALTH, Turret.DEFAULT_DAMAGE, null, game.spriteBatch,
                 placementTile);
@@ -152,11 +153,12 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="position"></param>
         public void CreateWall(Vector3 position) {
-            if (position.X > Game1.WORLD_BOUNDS_WIDTH / 2 || position.X < -Game1.WORLD_BOUNDS_WIDTH / 2 || position.Y > Game1.WORLD_BOUNDS_HEIGHT / 2 || position.Y < -Game1.WORLD_BOUNDS_HEIGHT / 2) {
-                game.InvalidTurretPlacement();
+            
+            Tile placementTile = grid.GetTile(new Vector2(position.X/Game1.TILE_SIZE, position.Y/Game1.TILE_SIZE));
+            if (placementTile == null) {
+                game.InvalidWallPlacement();
                 return;
             }
-            Tile placementTile = grid.GetTile(position);
             Wall wall = new Wall(game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(position.X, position.Y, position.Z),
                 Wall.DEFAULT_HEALTH, Wall.DEFAULT_DAMAGE, null, game.spriteBatch,
                 placementTile);

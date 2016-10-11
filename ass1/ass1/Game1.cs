@@ -19,8 +19,9 @@ namespace TowerDefence {
 
         public Wave currentWave;
 
-        public static int WORLD_BOUNDS_WIDTH = 1000;
-        public static int WORLD_BOUNDS_HEIGHT = 1000;
+        //World bounds width and height in tiles
+        public static int WORLD_BOUNDS_WIDTH = 20;
+        public static int WORLD_BOUNDS_HEIGHT = 20;
         public static float TILE_SIZE = 50.0f;
 
         public static float BASIC_TURRET_RANGE = 500.0f;
@@ -87,8 +88,7 @@ namespace TowerDefence {
             camera = new Camera(this, new Vector3(0, 200, 75), Vector3.Zero, Vector3.Up);
             Components.Add(camera);
 
-            grid = new Grid(Vector3.Zero, WORLD_BOUNDS_WIDTH / (int)TILE_SIZE,
-                (int)WORLD_BOUNDS_HEIGHT / (int)TILE_SIZE, this);
+            grid = new Grid(Vector3.Zero, WORLD_BOUNDS_WIDTH,WORLD_BOUNDS_HEIGHT, this);
             Debug.WriteLine(grid.ToString());
             worldModelManager = new WorldModelManager(this, graphics, grid);
             Components.Add(worldModelManager);

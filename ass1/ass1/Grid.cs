@@ -79,8 +79,8 @@ namespace TowerDefence {
         /// Helper method to construct the grid based on the attribute values
         /// </summary>
         private void GenerateGrid() {
-            for (int i = -width/2 - 1; i < width/2 + 1; i++) {
-                for (int j = height/2 + 1; j > -height/2 - 1; j--) {
+            for (int i = -width/2; i <= width/2; i++) {
+                for (int j = height/2; j >= -height/2; j--) {
                     Tile tileToAdd = new Tile(new Vector3(i * Game1.TILE_SIZE + centerPosition.X,
                         j * Game1.TILE_SIZE + centerPosition.Y, 0), new Vector2(i, j), this);
                     tiles.Add(tileToAdd);

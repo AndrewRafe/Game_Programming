@@ -13,6 +13,9 @@ namespace TowerDefence {
         public static float MAX_HEALTH = 300.0f;
         public static float MAX_DAMAGE = 100.0f;
 
+        public const String STATE_ATTACK_TOWER = "ATTACK_TOWER";
+        public const String STATE_IDLE = "IDLE";
+
         private LinkedList<Tile> path;
         private Grid grid;
 
