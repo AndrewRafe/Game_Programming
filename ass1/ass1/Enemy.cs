@@ -27,6 +27,7 @@ namespace TowerDefence {
         public float rewardForKilling { get; protected set; }
         public Vector3 prevPosition { get; private set; }
         public Tile targetTile { get; private set; }
+        public Tile spawnTile { get; private set; }
         Tower tower;
         float speed;
 
@@ -48,6 +49,7 @@ namespace TowerDefence {
             currentState = STATE_IDLE;
             this.grid = grid;
             this.targetTile = grid.GetTile(tower.GetPosition());
+            this.spawnTile = grid.GetTile(position);
             UpdatePath(grid.GetTile(tower.GetPosition()));
 
         }
@@ -61,44 +63,57 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime) {
-            Tile currentTile;
             if (currentState == STATE_IDLE) {
+                UpdatePath(tower.onTile);
                 if (hasPathToTower) {
                     currentState = STATE_ATTACK_TOWER;
                 } else {
                     currentState = STATE_ATTACK_WALL;
                 }
             } else if (currentState == STATE_ATTACK_TOWER) {
-                if (path.Count() > 0) {
-                    currentTile = path.First.Value;
-                    prevPosition = position;
-                    position = Behavior.StraightLineChase(this.position, currentTile.globalPosition, gameTime, speed);
-                    rotation = BasicModel.RotateToFace(position, currentTile.globalPosition, Vector3.UnitX);
-                    if (currentTile.IsAtCenter(this.position)) {
-                        currentTile.RemoveEnemyFromTile(this);
-                        path.RemoveFirst();
-                        path.First.Value.AddEnemyToTile(this);
-                    }
-                }
+                MoveOnPath(gameTime);
                 if (isLowHealth()) {
                     currentState = STATE_RUN_AWAY;
+                    RunAwayPathUpdate();
                 }
 
             } else if (currentState == STATE_ATTACK_WALL) {
                 if (isLowHealth()) {
                     currentState = STATE_RUN_AWAY;
+                    RunAwayPathUpdate();
                 }
                 Debug.WriteLine("NO PATH TO TOWER");
             } else if (currentState == STATE_RUN_AWAY) {
                 if (isMaxHealth()) {
                     currentState = STATE_IDLE;
                 }
+                if (grid.GetTile(position) == spawnTile) {
+                    RegenerateHealth(gameTime);
+                }
+                MoveOnPath(gameTime);
             }
             
             //prevPosition = position;
             //position = Behavior.StraightLineChase(this.position, tower.GetPosition(), gameTime, this.speed);
             //rotation = BasicModel.RotateToFace(position, tower.GetPosition(), new Vector3(0, 0, 1));
             base.Update(gameTime);
+        }
+
+        private void MoveOnPath(GameTime gameTime) {
+            Tile currentTile;
+            if (path.Count() > 0) {
+                currentTile = path.First.Value;
+                prevPosition = position;
+                position = Behavior.StraightLineChase(this.position, currentTile.globalPosition, gameTime, speed);
+                rotation = BasicModel.RotateToFace(position, currentTile.globalPosition, Vector3.UnitX);
+                if (currentTile.IsAtCenter(this.position)) {
+                    currentTile.RemoveEnemyFromTile(this);
+                    path.RemoveFirst();
+                    if (path.Count != 0) {
+                        path.First.Value.AddEnemyToTile(this);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -110,6 +125,7 @@ namespace TowerDefence {
             //If there is no path to the destination then call a handler function
             if (path == null) {
                 hasPathToTower = false;
+                RunAwayPathUpdate();
             } else {
                 hasPathToTower = true;
             }
@@ -162,24 +178,25 @@ namespace TowerDefence {
             }
         }
 
+        public void RunAwayPathUpdate() {
+            Tile currentTile = grid.GetTile(position);
+            path = Behavior.AStarPathFinding(currentTile, spawnTile, grid);
+        }
+
+        public void SetSpawnTile(Tile spawnTile) {
+            this.spawnTile = spawnTile;
+        }
+
         /// <summary>
-        /// Handles the event that the enemy has no valid path to its destination
-        /// The enemy will randomly target walls until a path exists
-        /// TODO: FIX
+        /// Will be called when the enemy is eligible to regain health
         /// </summary>
-        /*private void NoValidPath() {
-            //If it is stuck on a tile with a wall then damage the wall
-            Building buildingOnCurrentTile = grid.GetTile(position).AddModelToTile(;
-            Debug.WriteLine(position.ToString() + " AND GRID AT " + grid.GetTile(position).ToString());
-            if (buildingOnCurrentTile != null) {
-                buildingOnCurrentTile.DamageObject(this.maxDamage);
-                this.DamageObject(buildingOnCurrentTile.maxDamage);
+        /// <param name="gameTime"></param>
+        public void RegenerateHealth(GameTime gameTime) {
+            currentHealth += gameTime.ElapsedGameTime.Milliseconds/2;
+            if (currentHealth > maxHealth) {
+                currentHealth = maxHealth;
             }
-            Random rand = new Random();
-            while (path != null) {
-                path = Behavior.AStarPathFinding(grid.GetTile(position), grid.obstacleTiles.ElementAt(rand.Next(0,grid.obstacleTiles.Count - 1)), grid);
-            }
-            
-        }*/
+        }
+
     }
 }
