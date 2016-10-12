@@ -101,7 +101,7 @@ namespace TowerDefence {
         /// </summary>
         public void CreateEnemy() {
             Vector3 startingEnemyPosition = grid.GetTile(new Vector2(rand.Next(-Game1.WORLD_BOUNDS_WIDTH/2, Game1.WORLD_BOUNDS_WIDTH/2), -Game1.WORLD_BOUNDS_HEIGHT/2)).globalPosition;
-            Enemy enemy = new Enemy(Game.Content.Load<Model>(@"Models\Enemy\enemy"), 
+            Enemy enemy = new Enemy(Game.Content.Load<Model>(@"Models\Enemy\ship"), 
                 startingEnemyPosition, Enemy.MAX_HEALTH, Enemy.MAX_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game, grid);
             grid.GetTile(startingEnemyPosition).AddEnemyToTile(enemy);
             grid.AddEnemy(enemy);
@@ -159,7 +159,7 @@ namespace TowerDefence {
                 game.InvalidWallPlacement();
                 return;
             }
-            Wall wall = new Wall(game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(position.X, position.Y, position.Z),
+            Wall wall = new Wall(game.Content.Load<Model>(@"Models\Buildings\wall"), new Vector3(position.X, position.Y, position.Z),
                 Wall.DEFAULT_HEALTH, Wall.DEFAULT_DAMAGE, null, game.spriteBatch,
                 placementTile);
             grid.AddObstacleTile(placementTile);

@@ -60,7 +60,7 @@ namespace TowerDefence {
                 currentTile = path.First.Value;
                 prevPosition = position;
                 position = Behavior.StraightLineChase(this.position, currentTile.globalPosition, gameTime, speed);
-                rotation = BasicModel.RotateToFace(position, currentTile.globalPosition, Vector3.UnitZ);
+                rotation = BasicModel.RotateToFace(position, currentTile.globalPosition, Vector3.UnitX);
                 if (currentTile.IsAtCenter(this.position)) {
                     currentTile.RemoveEnemyFromTile(this);
                     path.RemoveFirst();

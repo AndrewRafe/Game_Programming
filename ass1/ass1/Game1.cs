@@ -166,6 +166,9 @@ namespace TowerDefence {
             Vector3 pickedPosition = this.PickedPosition();
             MouseState mouseState = Mouse.GetState();
             KeyboardState ks = Keyboard.GetState();
+
+            effect.EnableDefaultLighting();
+
             try {
                 worldModelManager.selectionCube.ChangeSelectionPosition(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
             } catch (NullReferenceException) {
