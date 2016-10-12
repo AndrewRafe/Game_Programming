@@ -59,12 +59,12 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
+[Dd]ebug/*.exe
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
 x64/
-x86/
+x86/*.exe
 bld/
 [Bb]in/
 [Oo]bj/
