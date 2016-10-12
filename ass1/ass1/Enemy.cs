@@ -13,11 +13,16 @@ namespace TowerDefence {
         public static float MAX_HEALTH = 300.0f;
         public static float MAX_DAMAGE = 100.0f;
 
-        public const String STATE_ATTACK_TOWER = "ATTACK_TOWER";
-        public const String STATE_IDLE = "IDLE";
+        private const String STATE_ATTACK_TOWER = "ATTACK_TOWER";
+        private const String STATE_ATTACK_WALL = "ATTACK_WALL";
+        private const String STATE_IDLE = "IDLE";
+        private const String STATE_RUN_AWAY = "RUN_AWAY";
+        private String currentState;
 
         private LinkedList<Tile> path;
         private Grid grid;
+
+        private bool hasPathToTower;
 
         public float rewardForKilling { get; protected set; }
         public Vector3 prevPosition { get; private set; }
@@ -39,7 +44,8 @@ namespace TowerDefence {
             } else {
                 this.rewardForKilling = 1;
             }
-
+            hasPathToTower = false;
+            currentState = STATE_IDLE;
             this.grid = grid;
             this.targetTile = grid.GetTile(tower.GetPosition());
             UpdatePath(grid.GetTile(tower.GetPosition()));
@@ -56,17 +62,39 @@ namespace TowerDefence {
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime) {
             Tile currentTile;
-            if (path.Count() > 0) {
-                currentTile = path.First.Value;
-                prevPosition = position;
-                position = Behavior.StraightLineChase(this.position, currentTile.globalPosition, gameTime, speed);
-                rotation = BasicModel.RotateToFace(position, currentTile.globalPosition, Vector3.UnitX);
-                if (currentTile.IsAtCenter(this.position)) {
-                    currentTile.RemoveEnemyFromTile(this);
-                    path.RemoveFirst();
-                    path.First.Value.AddEnemyToTile(this);
+            if (currentState == STATE_IDLE) {
+                if (hasPathToTower) {
+                    currentState = STATE_ATTACK_TOWER;
+                } else {
+                    currentState = STATE_ATTACK_WALL;
+                }
+            } else if (currentState == STATE_ATTACK_TOWER) {
+                if (path.Count() > 0) {
+                    currentTile = path.First.Value;
+                    prevPosition = position;
+                    position = Behavior.StraightLineChase(this.position, currentTile.globalPosition, gameTime, speed);
+                    rotation = BasicModel.RotateToFace(position, currentTile.globalPosition, Vector3.UnitX);
+                    if (currentTile.IsAtCenter(this.position)) {
+                        currentTile.RemoveEnemyFromTile(this);
+                        path.RemoveFirst();
+                        path.First.Value.AddEnemyToTile(this);
+                    }
+                }
+                if (isLowHealth()) {
+                    currentState = STATE_RUN_AWAY;
+                }
+
+            } else if (currentState == STATE_ATTACK_WALL) {
+                if (isLowHealth()) {
+                    currentState = STATE_RUN_AWAY;
+                }
+                Debug.WriteLine("NO PATH TO TOWER");
+            } else if (currentState == STATE_RUN_AWAY) {
+                if (isMaxHealth()) {
+                    currentState = STATE_IDLE;
                 }
             }
+            
             //prevPosition = position;
             //position = Behavior.StraightLineChase(this.position, tower.GetPosition(), gameTime, this.speed);
             //rotation = BasicModel.RotateToFace(position, tower.GetPosition(), new Vector3(0, 0, 1));
@@ -81,7 +109,9 @@ namespace TowerDefence {
             path = Behavior.AStarPathFinding(grid.GetTile(position), targetGridDestination, grid);
             //If there is no path to the destination then call a handler function
             if (path == null) {
-                //NoValidPath();
+                hasPathToTower = false;
+            } else {
+                hasPathToTower = true;
             }
         }
 
@@ -106,6 +136,30 @@ namespace TowerDefence {
         /// <returns>The velocity of the tank</returns>
         public Vector3 GetVelocityVector() {
             return position - prevPosition;
+        }
+
+        /// <summary>
+        /// Determines whether the enemy is on low health
+        /// </summary>
+        /// <returns></returns>
+        public bool isLowHealth() {
+            if (currentHealth <= maxHealth/2) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the enemy is on max health
+        /// </summary>
+        /// <returns></returns>
+        public bool isMaxHealth() {
+            if (currentHealth == maxHealth) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         /// <summary>

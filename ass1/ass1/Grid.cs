@@ -85,7 +85,7 @@ namespace TowerDefence {
                         j * Game1.TILE_SIZE + centerPosition.Y, 0), new Vector2(i, j), this);
                     tiles.Add(tileToAdd);
                     if (i == -width/2 || i == width/2 || j == height/2) {
-                        Wall wall = new Wall(game.Content.Load<Model>(@"Models\selectionCube"), GetTile(new Vector2(i, j)).globalPosition,
+                        Wall wall = new Wall(game.Content.Load<Model>(@"Models\Buildings\wall"), GetTile(new Vector2(i, j)).globalPosition,
                             Wall.DEFAULT_HEALTH, Wall.DEFAULT_DAMAGE, null, game.spriteBatch,tileToAdd); 
                     }
                 }

@@ -133,3 +133,9 @@ C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Cont
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v1_0.xnb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v2.xnb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 uv.xnb
+F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v1.xnb
+F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v1_0.xnb
+F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v2.xnb
+F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 uv.xnb
+F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Enemy\ship.xnb
+F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Textures\sh3.xnb
