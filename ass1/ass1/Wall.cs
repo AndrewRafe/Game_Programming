@@ -16,6 +16,7 @@ namespace TowerDefence {
         public float cost { get; private set; }
 
         public Wall(Model m, Vector3 position, float maxHealth, float maxDamage, Texture2D healthBarTexture, SpriteBatch spriteBatch, Tile builtOnTile) : base(m, position, maxHealth, maxDamage, healthBarTexture, spriteBatch, builtOnTile) {
+            builtOnTile.AddBuildingToTile(this);
             this.cost = DEFAULT_COST;
         }
 

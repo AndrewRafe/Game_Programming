@@ -57,7 +57,7 @@ namespace TowerDefence {
         /// </summary>
         /// <returns></returns>
         private int CalculatePredictionAccuracy() {
-            return (int)Vector3.Distance(position, targetEnemy.GetPosition())/5 * 2;
+            return (int)Vector3.Distance(position, targetEnemy.GetPosition())/5;
         }
 
         /// <summary>

@@ -56,8 +56,8 @@ namespace TowerDefence {
             models.Add(ground);
             selectionCube = new SelectionCube(Game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(0, 0, MODEL_OFFSET));
             models.Add(selectionCube);
-            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT/2)).globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Tower.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT/2)));
-            models.Add(tower);
+            Tile towerOnTile = grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT / 2));
+            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), towerOnTile.globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Tower.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT/2)));
             
             
             //CreateEnemy();
@@ -162,9 +162,7 @@ namespace TowerDefence {
             Wall wall = new Wall(game.Content.Load<Model>(@"Models\Buildings\wall"), new Vector3(position.X, position.Y, position.Z),
                 Wall.DEFAULT_HEALTH, Wall.DEFAULT_DAMAGE, null, game.spriteBatch,
                 placementTile);
-            grid.AddObstacleTile(placementTile);
             grid.ResetEnemyPath();
-            placementTile.AddBuildingToTile(wall);
 
         }
 

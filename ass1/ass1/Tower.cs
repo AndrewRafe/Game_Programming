@@ -26,6 +26,7 @@ namespace TowerDefence
 
         public Tower(Model m, Vector3 position, Game1 game, float maxHealth, float maxDamage, Texture2D healthBarTexture, SpriteBatch spriteBatch, Tile builtOnTile) : base(m, position, maxHealth, maxDamage, healthBarTexture, spriteBatch, builtOnTile) {
             //Debug.WriteLine("Turret created at X: " + position.X + " Y: " + position.Y + " Z: " + position.Z);
+            builtOnTile.AddTowerToTile(this);
             this.game = game;
             Initiate();
         }

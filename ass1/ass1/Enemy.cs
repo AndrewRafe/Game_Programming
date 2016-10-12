@@ -35,7 +35,7 @@ namespace TowerDefence {
             this.tower = tower;
             this.maxHealth = maxHealth;
             this.maxDamage = maxDamage;
-            this.speed = (float) game.rand.Next(20, 50);
+            this.speed = (float) game.rand.Next(10, 50);
             if (game.currentWave.waveNumber <= 4) {
                 this.rewardForKilling = 10.0f;
             } else if (game.currentWave.waveNumber <= 6) {
@@ -151,7 +151,7 @@ namespace TowerDefence {
         /// </summary>
         /// <returns>The velocity of the tank</returns>
         public Vector3 GetVelocityVector() {
-            return position - prevPosition;
+            return (position - prevPosition);
         }
 
         /// <summary>

@@ -28,6 +28,7 @@ namespace TowerDefence {
         public List<Enemy> enemiesOnTile { get; private set; }
         public Turret turretOnTile { get; private set; }
         public List<Bullet> bulletsOnTile { get; private set; }
+        public Tower towerOnTile { get; private set; }
 
         public List<Tile> adjacentTiles { get; private set; }
         public Vector3 globalPosition { get; private set; }
@@ -50,6 +51,7 @@ namespace TowerDefence {
             enemiesOnTile = new List<Enemy>();
             turretOnTile = null;
             bulletsOnTile = new List<Bullet>();
+            towerOnTile = null;
             this.grid = grid;
         }
 
@@ -171,7 +173,7 @@ namespace TowerDefence {
                 
             }
             
-            
+         
             foreach(Building building in buildingsOnTile) {
                 building.Draw(grid.game.camera, grid.game.graphics);
             }
@@ -179,6 +181,11 @@ namespace TowerDefence {
             foreach(Bullet bullet in bulletsOnTile) {
                 bullet.Draw(grid.game.camera, grid.game.graphics);
             }
+
+            if (towerOnTile != null) {
+                towerOnTile.Draw(grid.game.camera, grid.game.graphics);
+            }
+
 
         }
 
@@ -209,6 +216,18 @@ namespace TowerDefence {
 
         public void AddBuildingToTile(Building building) {
             buildingsOnTile.Add(building);
+            MakeUnwalkable();
+        }
+
+        public void RemoveBuildingFromTile(Building building) {
+            buildingsOnTile.Remove(building);
+            if (buildingsOnTile.Count == 0) {
+                MakeWalkable();
+            }
+        }
+
+        public void AddTowerToTile(Tower tower) {
+            towerOnTile = tower;
         }
 
         public void HandleTile(GameTime gameTime) {
@@ -288,6 +307,16 @@ namespace TowerDefence {
                         grid.game.TurretDestroyed();
                     }
                     enemy.DamageObject(enemy.currentHealth);
+                }
+
+                if (towerOnTile != null && enemy.CollidesWith(towerOnTile.model, towerOnTile.GetWorldMatrix())) {
+                    towerOnTile.DamageObject(enemy.maxDamage);
+                    enemy.DamageObject(towerOnTile.maxDamage);
+                }
+
+                //Handle enemy getting stuck on impassable tile
+                if (adjacentTiles.Count == 0) {
+                    enemy.DamageObject(Enemy.MAX_HEALTH);
                 }
 
                 if (enemy.IsDead()) {
