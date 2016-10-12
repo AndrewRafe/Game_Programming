@@ -1,0 +1,49 @@
+﻿<!---
+Allowed states:
+- IDLE
+- PURSUE
+- EVADE
+
+Allowed conditions:
+- ALWAYSTRUE (this implements sequences)
+- PLAYER_POWERUPPILL
+- PLAYER_POWERUPPILL_EXPIRE
+- PLAYER_NEAR
+- PLAYER_FAR
+-->
+
+<fsm name ="default" startState="IDLE">
+
+  <!--
+  <state fromState="IDLE">
+    <transition condition="PLAYER_NEAR" toState="PURSUE" health="300" damage="100"/>
+  </state>
+  
+  <state fromState="PURSUE">
+    <transition condition="PLAYER_FAR" toState="IDLE" />
+    <transition condition="PLAYER_POWERUPPILL" toState="EVADE" />
+  </state>
+  
+  <state fromState="EVADE">
+    <transition condition="PLAYER_FAR" toState="IDLE" />
+  </state> -->
+
+  <state fromState="IDLE">
+    <transition condition="PATH_TO_TOWER" toState="ATTACK_TOWER"/>
+    <transition condition="NO_PATH_TO_TOWER" toState="ATTACK_WALL"/>
+    <transition condition="INIT" health="300" damage="100" toState="NONE"/>
+  </state>
+
+  <state fromState="ATTACK_TOWER">
+    <transition condition="LOW_HEALTH" toState="RUN_AWAY"/>
+  </state>
+
+  <state fromState="RUN_AWAY">
+    <transition condition="MAX_HEALTH" toState="IDLE"/>
+  </state>
+
+  <state fromState="ATTACK_WALL">
+    <transition condition="LOW_HEALTH" toState="RUN_AWAY"/>
+  </state>
+  
+</fsm>

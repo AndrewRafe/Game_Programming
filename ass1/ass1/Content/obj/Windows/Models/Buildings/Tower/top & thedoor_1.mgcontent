@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/sushm/Documents/Game Programming/Group Assignment 1/New One/Game_Programming/ass1/ass1/Content/Models/Buildings/Tower/top &amp; thedoor.jpg</SourceFile>
-  <SourceTime>2016-09-05T07:39:59.2398769+10:00</SourceTime>
+  <SourceTime>2016-10-13T06:26:06.0146344+11:00</SourceTime>
   <DestFile>C:/Users/sushm/Documents/Game Programming/Group Assignment 1/New One/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/Tower/top &amp; thedoor_1.xnb</DestFile>
-  <DestTime>2016-09-05T07:56:56.2427557+10:00</DestTime>
+  <DestTime>2016-10-13T06:27:20.2205858+11:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2015-04-30T03:14:44+10:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
