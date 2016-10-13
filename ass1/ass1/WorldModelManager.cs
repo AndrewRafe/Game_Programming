@@ -216,7 +216,7 @@ namespace TowerDefence
                         {
                             health = float.Parse(transaction.Attribute("health").Value);
                             damage = float.Parse(transaction.Attribute("damage").Value);
-                            currentState = transaction.Attribute("toState").Value;
+                            //currentState = transaction.Attribute("toState").Value;
                             //Debug.WriteLine("Health: " + health + "  Damage: " + damage +" *** "+ currentState);
                         }
                     }
