@@ -192,7 +192,7 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="gameTime"></param>
         public void RegenerateHealth(GameTime gameTime) {
-            currentHealth += gameTime.ElapsedGameTime.Milliseconds/2;
+            currentHealth += gameTime.ElapsedGameTime.Milliseconds/5;
             if (currentHealth > maxHealth) {
                 currentHealth = maxHealth;
             }

@@ -12,7 +12,7 @@ namespace TowerDefence
     public class Tower : Building 
     {
 
-        public static float DEFAULT_TOWER_HEALTH = 100.0f;
+        public static float DEFAULT_TOWER_HEALTH = 1000.0f;
         public static float DEFAULT_DAMAGE = 1000.0f;
 
         Game1 game;

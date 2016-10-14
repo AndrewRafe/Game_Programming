@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace TowerDefence {
     /// <summary>
@@ -16,6 +17,7 @@ namespace TowerDefence {
         private const String STATE_GAME = "GAME";
         private const String STATE_GAME_OVER = "GAME_OVER";
         private const String STATE_PAUSE = "PAUSE";
+        private const String STATE_LEVEL_EDITOR = "LEVEL_EDITOR";
         private String currentState;
 
         public int SCREEN_WIDTH;
@@ -34,6 +36,8 @@ namespace TowerDefence {
 
         private int timeMinutes;
         private int timeMilliseconds;
+
+        private int prevWaveNumber;
 
         private bool towerHealthDanger;
 
@@ -73,10 +77,11 @@ namespace TowerDefence {
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 500;
-            graphics.PreferredBackBufferWidth = 950;
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.PreferredBackBufferWidth = 1900;
             currentState = STATE_MENU;
             Content.RootDirectory = "Content";
+            prevWaveNumber = 1;
         }
 
         /// <summary>
@@ -87,7 +92,7 @@ namespace TowerDefence {
         /// </summary>
         protected override void Initialize() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            camera = new Camera(this, new Vector3(0, 200, 75), Vector3.Zero, Vector3.Up);
+            camera = new Camera(this, new Vector3(0, 1400, 75), Vector3.Zero, Vector3.Up);
             Components.Add(camera);
 
             grid = new Grid(Vector3.Zero, WORLD_BOUNDS_WIDTH,WORLD_BOUNDS_HEIGHT, this);
@@ -96,8 +101,6 @@ namespace TowerDefence {
             Components.Add(worldModelManager);
 
             player = new Player(this);
-
-            
 
             prevMouseState = Mouse.GetState();
 
@@ -166,9 +169,30 @@ namespace TowerDefence {
             KeyboardState ks = Keyboard.GetState();
             Vector3 pickedPosition = this.PickedPosition();
             if (currentState == STATE_MENU) {
-                if (ks.GetPressedKeys().Length > 0 && prevKeyboardState.GetPressedKeys().Length == 0) {
+                if (ks.IsKeyDown(Keys.L)) {
+                    currentState = STATE_LEVEL_EDITOR;
+                }
+                if (ks.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyDown(Keys.Space)) {
                     currentState = STATE_GAME;
                 }
+                //Level 1
+                if (ks.IsKeyDown(Keys.D1)) {
+                    ResetGame();
+                    LoadLevelData("../../../../Content/level1.txt");
+                }
+
+                //Level 2
+                if (ks.IsKeyDown(Keys.D2)) {
+                    ResetGame();
+                    LoadLevelData("../../../../Content/level2.txt");
+                }
+
+                //Level 3
+                if (ks.IsKeyDown(Keys.D3)) {
+                    ResetGame();
+                    LoadLevelData("../../../../Content/level3.txt");
+                }
+
             } else if (currentState == STATE_GAME) {
 
                 camera.Update(gameTime);
@@ -208,24 +232,12 @@ namespace TowerDefence {
 
                     }
 
-                    if (mouseState.RightButton == ButtonState.Pressed) {
-                        //worldModelManager.CreateWall(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
-                        Debug.WriteLine(pickedPosition.ToString());
-                        Tile currentMouseOverTile = grid.GetTile(PickedPositionTranslation(pickedPosition));
-                        if (currentMouseOverTile != null) {
-                            Debug.WriteLine(currentMouseOverTile.ToString());
-                        }
-                        if (player.HasSuffucientMoney(Wall.DEFAULT_COST)) {
-                            worldModelManager.CreateWall(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
-                            player.SpendMoney(Wall.DEFAULT_COST);
-                        }
-                    }
                 }
                 catch (NullReferenceException) {
                     Debug.WriteLine("Tried to build outside world bounds. That is not allowed");
                 }
 
-                if(worldModelManager.tower.IsDead()) {
+                if (worldModelManager.tower.IsDead()) {
                     currentState = STATE_GAME_OVER;
                 }
 
@@ -236,6 +248,10 @@ namespace TowerDefence {
                 if (ks.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space)) {
                     currentState = STATE_GAME;
                 }
+                if (ks.IsKeyDown(Keys.X)) {
+                    currentState = STATE_MENU;
+                    ResetGame();
+                }
             } else if (currentState == STATE_GAME_OVER) {
                 if (currentWave != null) {
                     ResetGame();
@@ -244,12 +260,39 @@ namespace TowerDefence {
                 if (ks.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space)) {
                     currentState = STATE_MENU;
                 }
+            } else if (currentState == STATE_LEVEL_EDITOR) {
+                camera.Update(gameTime);
+                worldModelManager.Update(gameTime);
+
+                try {
+                    worldModelManager.selectionCube.ChangeSelectionPosition(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
+                }
+                catch (NullReferenceException) {
+                    Debug.WriteLine("Mouse outside world bounds");
+                }
+
+                try {
+
+                    if (mouseState.LeftButton == ButtonState.Pressed) {
+                        Debug.WriteLine(pickedPosition.ToString());
+                        Tile currentMouseOverTile = grid.GetTile(PickedPositionTranslation(pickedPosition));
+                        worldModelManager.CreateWall(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
+                    }
+                }
+                catch (NullReferenceException) {
+                    Debug.WriteLine("Tried to build outside world bounds. That is not allowed");
+                }
+
+                if (ks.IsKeyDown(Keys.Enter)) {
+                    WriteLevelToFile("../../../../Content/level3.txt", worldModelManager.grid);
+                    
+                    currentState = STATE_MENU;
+                }
             }
 
             effect.EnableDefaultLighting();
             prevMouseState = mouseState;
             prevKeyboardState = ks;
-
         }
 
         /// <summary>
@@ -360,7 +403,7 @@ namespace TowerDefence {
             //Message displayed when game is over
             if (currentState == STATE_GAME_OVER) {
                 String gameOverString = "THE TOWER HAS BEEN DESTROYED";
-                String waveNumberGameOverString = "YOU MADE IT TO WAVE: " + currentWave.waveNumber;
+                String waveNumberGameOverString = "YOU MADE IT TO WAVE: " + prevWaveNumber;
                 String instructionText = "Hold Space to Continue";
                 Vector2 gameOverCenterVector = informationFont.MeasureString(gameOverString) / 2;
                 Vector2 waveNumberGameOverCenterVector = informationFont.MeasureString(waveNumberGameOverString) / 2;
@@ -396,12 +439,13 @@ namespace TowerDefence {
 
             } else if (currentState == STATE_MENU) {
                 String alertText = "DEFEND THE TOWER";
-                String instructionText = "Press Any Key to Start";
+                String instructionText = "Press Space to Start, L to start Level Editor";
                 //Find the center of the string
                 Vector2 fontOrigin = informationFont.MeasureString(alertText) / 2;
+                Vector2 instructionTextVector = informationFont.MeasureString(instructionText) / 2;
                 //Draw the String
                 spriteBatch.DrawString(informationFont, alertText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), Game1.TEXT_COLOR, 0, fontOrigin, 1.5f, SpriteEffects.None, 0.5f);
-                spriteBatch.DrawString(informationFont, instructionText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 100), Game1.TEXT_COLOR, 0, fontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                spriteBatch.DrawString(informationFont, instructionText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 100), Game1.TEXT_COLOR, 0, instructionTextVector, 1.0f, SpriteEffects.None, 0.5f);
             }
 
 
@@ -452,13 +496,56 @@ namespace TowerDefence {
         }
 
         private void ResetGame() {
+            prevWaveNumber = currentWave.waveNumber;
             timeMilliseconds = 0;
             timeMinutes = 0;
-            currentWave = null;
             Components.Remove(worldModelManager);
             sirenInstance.Dispose();
             MediaPlayer.Stop();
             Initialize();
+        }
+
+        /// <summary>
+        /// Will write the map to a text file
+        /// </summary>
+        /// <param name="filename">The filename that the map will be stored</param>
+        /// <param name="grid">The grid that is being saved</param>
+        private void WriteLevelToFile(String filename, Grid grid) {
+            String isWallString = "";
+            int i = 0;
+            foreach (Tile tile in grid.tiles) {
+                if (tile.buildingsOnTile.Count > 0) {
+                    isWallString += "1";
+                } else {
+                    isWallString += "0";
+                }
+                i++;
+            }
+            System.IO.File.WriteAllText(filename, isWallString);
+            //Debug.WriteLine(isWallString);
+
+
+        }
+
+        private void LoadLevelData(String filename) {
+            String mapData;
+            using (StreamReader reader = new StreamReader(filename)) {
+                mapData = reader.ReadLine();
+            }
+            int i = -WORLD_BOUNDS_WIDTH/2;
+            int j = -WORLD_BOUNDS_HEIGHT/2;
+            foreach(char isWall in mapData) {
+                
+                if (isWall.ToString() == "1") {
+                    worldModelManager.CreateWall(worldModelManager.grid.GetTile(new Vector2(j, -i)).globalPosition);
+                }
+                i++;
+                if (i > WORLD_BOUNDS_WIDTH/2) {
+                    j++;
+                    i = -WORLD_BOUNDS_WIDTH / 2;
+                } 
+            }
+
         }
 
     }

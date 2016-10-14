@@ -17,7 +17,7 @@ Allowed conditions:
   <state fromState="IDLE">
     <transition condition="PATH_TO_TOWER" toState="ATTACK_TOWER"/>
     <transition condition="NO_PATH_TO_TOWER" toState="ATTACK_WALL"/>
-    <transition condition="INIT" health="200" damage="100" toState="NONE"/>
+    <transition condition="INIT" health="300" damage="100" toState="NONE"/>
   </state>
 
   <state fromState="ATTACK_TOWER">

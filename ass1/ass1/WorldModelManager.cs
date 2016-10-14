@@ -177,14 +177,13 @@ namespace TowerDefence
         /// <param name="position"></param>
         public void CreateWall(Vector3 position)
         {
-
-            Tile placementTile = grid.GetTile(new Vector2(position.X / Game1.TILE_SIZE, position.Y / Game1.TILE_SIZE));
+            Tile placementTile = grid.GetTile(position);
             if (placementTile == null)
             {
                 game.InvalidWallPlacement();
                 return;
             }
-            Wall wall = new Wall(game.Content.Load<Model>(@"Models\Buildings\wall"), new Vector3(position.X, position.Y, position.Z),
+            Wall wall = new Wall(game.Content.Load<Model>(@"Models\Buildings\wall"), position,
                 Wall.DEFAULT_HEALTH, Wall.DEFAULT_DAMAGE, null, game.spriteBatch,
                 placementTile);
             grid.ResetEnemyPath();

@@ -161,22 +161,22 @@ namespace TowerDefence {
         }
         
         public void DrawTile() {
-            foreach(Enemy enemy in enemiesOnTile) {
+
+            foreach (Building building in buildingsOnTile) {
+                building.Draw(grid.game.camera, grid.game.graphics);
+            }
+
+            foreach (Enemy enemy in enemiesOnTile) {
                 enemy.Draw(grid.game.camera, grid.game.graphics);
             }
 
             if (turretOnTile != null) {
                 
                 turretOnTile.Draw(grid.game.camera, grid.game.graphics);
-                Debug.WriteLine("Turret Exists");
             } else {
                 
             }
             
-         
-            foreach(Building building in buildingsOnTile) {
-                building.Draw(grid.game.camera, grid.game.graphics);
-            }
 
             foreach(Bullet bullet in bulletsOnTile) {
                 bullet.Draw(grid.game.camera, grid.game.graphics);

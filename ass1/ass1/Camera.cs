@@ -17,9 +17,9 @@ namespace TowerDefence {
         /// <summary>
         /// Constants controlling limitations on camera movement
         /// </summary>
-        private static float SCROLL_SPEED = 10.0f;
-        private static float MAX_ZOOM = 600.0f;
-        private static float MIN_ZOOM = 200.0f;
+        private static float SCROLL_SPEED = 50.0f;
+        private static float MAX_ZOOM = 1400.0f;
+        private static float MIN_ZOOM = 800.0f;
 
         /// <summary>
         /// View and Projection matrices for the camera
@@ -112,13 +112,14 @@ namespace TowerDefence {
             }
 
             //Strafe
+            /*
             if (Keyboard.GetState().IsKeyDown(Keys.A)) {
                 cameraPosition += Vector3.Cross(cameraUp, cameraDirection) * speed * (new Vector3(1, 0, 1));
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D)) {
                 cameraPosition -= Vector3.Cross(cameraUp, cameraDirection) * speed * (new Vector3(1, 0, 1));
             }
-
+            */
 
             //ZOOMING IN AND OUT
             if (Mouse.GetState().ScrollWheelValue < prevMouseState.ScrollWheelValue) {

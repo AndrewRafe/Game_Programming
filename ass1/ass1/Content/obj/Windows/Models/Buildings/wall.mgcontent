@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/Models/Buildings/wall.fbx</SourceFile>
-  <SourceTime>2016-10-14T13:39:56.0852409+11:00</SourceTime>
-  <DestFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/wall.xnb</DestFile>
-  <DestTime>2016-10-14T13:41:40.219922+11:00</DestTime>
+  <SourceFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/Models/Buildings/wall.fbx</SourceFile>
+  <SourceTime>2016-10-14T13:54:17.8053185+11:00</SourceTime>
+  <DestFile>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/wall.xnb</DestFile>
+  <DestTime>2016-10-14T17:21:43.7191133+11:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
@@ -66,7 +66,7 @@
   </Parameters>
   <Dependencies />
   <BuildAsset>
-    <string>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/Textures/Marble_Base_Color_0.xnb</string>
+    <string>C:/Users/Andrew Rafe/Desktop/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/Textures/Marble_Base_Color_0.xnb</string>
   </BuildAsset>
   <BuildOutput />
 </PipelineBuildEvent>
