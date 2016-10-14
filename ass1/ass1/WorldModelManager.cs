@@ -26,6 +26,7 @@ namespace TowerDefence
         public Tower tower;
         public Turret towerTurret;
         public BasicModel tent;
+        public EnemyCabin enemyCabin;
 
         Game1 game;
         public Grid grid;
@@ -69,6 +70,9 @@ namespace TowerDefence
             models.Add(selectionCube);
             Tile towerOnTile = grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT / 2));
             tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), towerOnTile.globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Tower.DEFAULT_DAMAGE, null, game.spriteBatch, grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT / 2)));
+
+            enemyCabin = new EnemyCabin(Game.Content.Load<Model>(@"Models\Enemy\enemycabin"), new Vector3(-400, -450, 0));
+            models.Add(enemyCabin);
 
 
             //CreateEnemy();

@@ -3,7 +3,7 @@
   <SourceFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/Models/Buildings/wall.fbx</SourceFile>
   <SourceTime>2016-10-14T13:39:56.0852409+11:00</SourceTime>
   <DestFile>C:/Users/Diplove/Documents/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/wall.xnb</DestFile>
-  <DestTime>2016-10-14T13:41:40.219922+11:00</DestTime>
+  <DestTime>2016-10-14T20:22:57.115589+11:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
