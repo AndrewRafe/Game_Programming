@@ -117,7 +117,7 @@ namespace TowerDefence
             ValueFromXml();
             Vector3 startingEnemyPosition = grid.GetTile(new Vector2(rand.Next(-Game1.WORLD_BOUNDS_WIDTH / 2, Game1.WORLD_BOUNDS_WIDTH / 2), -Game1.WORLD_BOUNDS_HEIGHT / 2)).globalPosition;
             Enemy enemy = new Enemy(Game.Content.Load<Model>(@"Models\Enemy\ship"),
-                startingEnemyPosition, health, damage, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game, grid);
+                startingEnemyPosition, health, damage, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game, grid, xml);
             grid.GetTile(startingEnemyPosition).AddEnemyToTile(enemy);
             grid.AddEnemy(enemy);
 
@@ -222,7 +222,6 @@ namespace TowerDefence
                     }
                 }
             }
-
         }
     }
 }

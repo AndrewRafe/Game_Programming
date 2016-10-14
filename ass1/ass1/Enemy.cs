@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TowerDefence {
     public class Enemy : BasicGameObject {
@@ -17,7 +18,13 @@ namespace TowerDefence {
         private const String STATE_ATTACK_WALL = "ATTACK_WALL";
         private const String STATE_IDLE = "IDLE";
         private const String STATE_RUN_AWAY = "RUN_AWAY";
+
+        private const String CONDITION_PATH_TO_TOWER = "PATH_TO_TOWER";
+        private const String CONDITION_NO_PATH_TO_TOWER = "NO_PATH_TO_TOWER";
+        private const String CONDITION_LOW_HEALTH = "LOW_HEALTH";
+        private const String CONDITION_MAX_HEALTH = "MAX_HEALTH";
         private String currentState;
+        private String currentCondition;
 
         private LinkedList<Tile> path;
         private Grid grid;
@@ -30,8 +37,9 @@ namespace TowerDefence {
         public Tile spawnTile { get; private set; }
         Tower tower;
         float speed;
+        XElement xml;
 
-        public Enemy(Model m, Vector3 position, float maxHealth, float maxDamage, Texture2D healthBarTexture, Tower tower, Game1 game, Grid grid) : base(m, position, maxHealth, maxDamage, healthBarTexture, game.spriteBatch) {
+        public Enemy(Model m, Vector3 position, float maxHealth, float maxDamage, Texture2D healthBarTexture, Tower tower, Game1 game, Grid grid, XElement xml) : base(m, position, maxHealth, maxDamage, healthBarTexture, game.spriteBatch) {
             this.tower = tower;
             this.maxHealth = maxHealth;
             this.maxDamage = maxDamage;
@@ -47,9 +55,11 @@ namespace TowerDefence {
             }
             hasPathToTower = false;
             currentState = STATE_IDLE;
+            currentCondition = CONDITION_PATH_TO_TOWER;
             this.grid = grid;
             this.targetTile = grid.GetTile(tower.GetPosition());
             this.spawnTile = grid.GetTile(position);
+            this.xml = xml;
             UpdatePath(grid.GetTile(tower.GetPosition()));
 
         }
@@ -63,36 +73,118 @@ namespace TowerDefence {
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime) {
-            if (currentState == STATE_IDLE) {
-                UpdatePath(tower.onTile);
-                if (hasPathToTower) {
-                    currentState = STATE_ATTACK_TOWER;
-                } else {
-                    currentState = STATE_ATTACK_WALL;
-                }
-            } else if (currentState == STATE_ATTACK_TOWER) {
-                MoveOnPath(gameTime);
-                if (isLowHealth()) {
-                    currentState = STATE_RUN_AWAY;
-                    RunAwayPathUpdate();
-                }
 
-            } else if (currentState == STATE_ATTACK_WALL) {
-                if (isLowHealth()) {
-                    currentState = STATE_RUN_AWAY;
-                    RunAwayPathUpdate();
+            Debug.WriteLine("CurrentState :" + currentState);
+            string stateFromXml = "";
+            foreach (XElement state in xml.Elements())
+            {
+                stateFromXml = state.Attribute("fromState").Value;
+                if (stateFromXml.Equals(currentState))
+                {
+                    if (stateFromXml.Equals(STATE_IDLE))
+                    {
+                        UpdatePath(tower.onTile);
+                        foreach (XElement transaction in state.Elements())
+                        {
+                            string conditionFromXml = transaction.Attribute("condition").Value;
+                            if (conditionFromXml.Equals(currentCondition))
+                            {
+                                currentState = transaction.Attribute("toState").Value;
+                            }
+                        }
+                    }
+                    if (stateFromXml.Equals(STATE_ATTACK_TOWER))
+                    {
+                        MoveOnPath(gameTime);
+                        foreach (XElement transaction in state.Elements())
+                        {
+                            bool forCheck = isLowHealth();
+                            string conditionFromXml = transaction.Attribute("condition").Value;
+                            Debug.WriteLine("Condition: " + currentCondition);
+                            if (conditionFromXml.Equals(currentCondition))
+                            {
+                                currentState = transaction.Attribute("toState").Value;
+                                RunAwayPathUpdate();
+                            }
+                        }
+                    }
+                    if (stateFromXml.Equals(STATE_ATTACK_WALL))
+                    {
+                        bool forCheck = isLowHealth();
+                        foreach (XElement transaction in state.Elements())
+                        {
+                            string conditionFromXml = transaction.Attribute("condition").Value;
+                            if (conditionFromXml.Equals(currentCondition))
+                            {
+                                currentState = transaction.Attribute("toState").Value;
+                                RunAwayPathUpdate();
+                            }
+                        }
+                    }
+                    if (stateFromXml.Equals(STATE_RUN_AWAY))
+                    {
+                        foreach (XElement transaction in state.Elements())
+                        {
+                            string conditionFromXml = transaction.Attribute("condition").Value;
+                            bool forCheck = isMaxHealth();
+                            if (conditionFromXml.Equals(currentCondition))
+                            {
+                                currentState = transaction.Attribute("toState").Value;
+                            }
+                        }
+                        if (grid.GetTile(position) == spawnTile)
+                        {
+                            RegenerateHealth(gameTime);
+                        }
+                        MoveOnPath(gameTime);
+                    }
                 }
-                Debug.WriteLine("NO PATH TO TOWER");
-            } else if (currentState == STATE_RUN_AWAY) {
-                if (isMaxHealth()) {
-                    currentState = STATE_IDLE;
-                }
-                if (grid.GetTile(position) == spawnTile) {
-                    RegenerateHealth(gameTime);
-                }
-                MoveOnPath(gameTime);
             }
-            
+            // **************
+            //if (currentState == STATE_IDLE)
+            //{
+            //    UpdatePath(tower.onTile);
+            //    if (hasPathToTower)
+            //    {
+            //        currentState = STATE_ATTACK_TOWER;
+            //    }
+            //    else
+            //    {
+            //        currentState = STATE_ATTACK_WALL;
+            //    }
+            //}
+            //else if (currentState == STATE_ATTACK_TOWER)
+            //{
+            //    MoveOnPath(gameTime);
+            //    if (isLowHealth())
+            //    {
+            //        currentState = STATE_RUN_AWAY;
+            //        RunAwayPathUpdate();
+            //    }
+
+            //}
+            //else if (currentState == STATE_ATTACK_WALL)
+            //{
+            //    if (isLowHealth())
+            //    {
+            //        currentState = STATE_RUN_AWAY;
+            //        RunAwayPathUpdate();
+            //    }
+            //    Debug.WriteLine("NO PATH TO TOWER");
+            //}
+            //else if (currentState == STATE_RUN_AWAY)
+            //{
+            //    if (isMaxHealth())
+            //    {
+            //        currentState = STATE_IDLE;
+            //    }
+            //    if (grid.GetTile(position) == spawnTile)
+            //    {
+            //        RegenerateHealth(gameTime);
+            //    }
+            //    MoveOnPath(gameTime);
+            //}
+
             //prevPosition = position;
             //position = Behavior.StraightLineChase(this.position, tower.GetPosition(), gameTime, this.speed);
             //rotation = BasicModel.RotateToFace(position, tower.GetPosition(), new Vector3(0, 0, 1));
@@ -126,8 +218,10 @@ namespace TowerDefence {
             if (path == null) {
                 hasPathToTower = false;
                 RunAwayPathUpdate();
+                currentCondition = CONDITION_NO_PATH_TO_TOWER;
             } else {
                 hasPathToTower = true;
+                currentCondition = CONDITION_PATH_TO_TOWER;
             }
         }
 
@@ -160,6 +254,7 @@ namespace TowerDefence {
         /// <returns></returns>
         public bool isLowHealth() {
             if (currentHealth <= maxHealth/2) {
+                currentCondition = CONDITION_LOW_HEALTH;
                 return true;
             } else {
                 return false;
@@ -172,6 +267,7 @@ namespace TowerDefence {
         /// <returns></returns>
         public bool isMaxHealth() {
             if (currentHealth == maxHealth) {
+                currentCondition = CONDITION_MAX_HEALTH;
                 return true;
             } else {
                 return false;
