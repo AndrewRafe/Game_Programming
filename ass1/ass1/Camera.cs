@@ -17,9 +17,9 @@ namespace TowerDefence {
         /// <summary>
         /// Constants controlling limitations on camera movement
         /// </summary>
-        private static float SCROLL_SPEED = 50.0f;
-        private static float MAX_ZOOM = 1400.0f;
-        private static float MIN_ZOOM = 800.0f;
+        private static float SCROLL_SPEED = 10.0f;
+        private static float MAX_ZOOM = 1000.0f;
+        private static float MIN_ZOOM = 600.0f;
 
         /// <summary>
         /// View and Projection matrices for the camera

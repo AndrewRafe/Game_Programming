@@ -92,7 +92,7 @@ namespace TowerDefence {
         /// </summary>
         protected override void Initialize() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            camera = new Camera(this, new Vector3(0, 1400, 75), Vector3.Zero, Vector3.Up);
+            camera = new Camera(this, new Vector3(0, 100, 100), Vector3.Zero, Vector3.Up);
             Components.Add(camera);
 
             grid = new Grid(Vector3.Zero, WORLD_BOUNDS_WIDTH,WORLD_BOUNDS_HEIGHT, this);
