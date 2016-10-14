@@ -129,10 +129,6 @@ C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\obj\x86\Debug\ass1.exe
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\obj\x86\Debug\ass1.pdb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Textures\sh3.xnb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\obj\x86\Debug\TowerDefence.csprojResolveAssemblyReference.cache
-C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v1.xnb
-C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v1_0.xnb
-C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v2.xnb
-C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 uv.xnb
 F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v1.xnb
 F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v1_0.xnb
 F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v2.xnb
@@ -279,3 +275,6 @@ C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Sh
 C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.RawInput.xml
 C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
 C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\obj\x86\Debug\TowerDefence.csprojResolveAssemblyReference.cache
+C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\enemy_behaviour.xml
+C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Textures\Marble_Base_Color.xnb
+C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Textures\Marble_Base_Color_0.xnb
