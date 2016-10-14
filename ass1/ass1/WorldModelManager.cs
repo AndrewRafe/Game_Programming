@@ -69,8 +69,12 @@ namespace TowerDefence
             models.Add(selectionCube);
             Tile towerOnTile = grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT / 2));
             tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), towerOnTile.globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Tower.DEFAULT_DAMAGE, null, game.spriteBatch, grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT / 2)));
-
-
+            BasicModel cabin;
+            for (int i = -Game1.WORLD_BOUNDS_WIDTH/2 + 2; i < Game1.WORLD_BOUNDS_WIDTH / 2 - 2; i++) {
+                cabin = new BasicModel(Game.Content.Load<Model>(@"Models\Buildings\enemyCabin"), grid.GetTile(new Vector2(i, -Game1.WORLD_BOUNDS_HEIGHT / 2 + 2)).globalPosition);
+                models.Add(cabin);
+            }
+            
             //CreateEnemy();
             base.LoadContent();
         }
@@ -115,8 +119,8 @@ namespace TowerDefence
         public void CreateEnemy()
         {
             ValueFromXml();
-            Vector3 startingEnemyPosition = grid.GetTile(new Vector2(rand.Next(-Game1.WORLD_BOUNDS_WIDTH / 2, Game1.WORLD_BOUNDS_WIDTH / 2), -Game1.WORLD_BOUNDS_HEIGHT / 2)).globalPosition;
-            Enemy enemy = new Enemy(Game.Content.Load<Model>(@"Models\Enemy\ship"),
+            Vector3 startingEnemyPosition = grid.GetTile(new Vector2(rand.Next(-Game1.WORLD_BOUNDS_WIDTH / 2, Game1.WORLD_BOUNDS_WIDTH / 2), -Game1.WORLD_BOUNDS_HEIGHT / 2 + 2)).globalPosition;
+            Enemy enemy = new Enemy(Game.Content.Load<Model>(@"Models\Enemy\enemy"),
                 startingEnemyPosition, health, damage, Game.Content.Load<Texture2D>(@"HealthTexture"), tower, game, grid);
             grid.GetTile(startingEnemyPosition).AddEnemyToTile(enemy);
             grid.AddEnemy(enemy);
