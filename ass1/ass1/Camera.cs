@@ -67,8 +67,13 @@ namespace TowerDefence {
             nearPlane = 1;
             farPlane = 3000;
 
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)Game.Window.ClientBounds.Width /
+            try {
+                projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)Game.Window.ClientBounds.Width /
                 (float)Game.Window.ClientBounds.Height, nearPlane, farPlane);
+            } catch (NullReferenceException) {
+                Debug.WriteLine("Projection null reference");
+            }
+            
         }
 
         /// <summary>

@@ -209,3 +209,73 @@ C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Progra
 C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.RawInput.xml
 C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
 C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\enemy_behaviour.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\obj\x86\Debug\ass1.exe
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\obj\x86\Debug\ass1.pdb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\grassTexture_0.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\GroundModels\groundGrass.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\stoneWallTexture.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\top & thedoor_1.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Enemy\AT13279L__37194.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Enemy\bg-footer-inner.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\enemy_behaviour.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\grassTexture.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\HealthTexture.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Fonts\playerInfoFont.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\GroundModels\ground.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\GroundModels\Ground.fbm\grassTexture_0.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v1.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v1_0.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 tex v2.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\pedestal2 uv.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\selectionCube.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\wall.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\bottom.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\bottom_0.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\innerwood.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\innerwood_0.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\roof.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\roof_0.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\top & thedoor.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\top & thedoor_0.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\tower.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\towertop.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Tower\towertop_0.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Enemy\enemy.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Enemy\ship.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Enemy\Tanque.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Textures\sh3.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Turrets\cannon.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Turrets\cannon2.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Turrets\turretStock.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Turrets\Bullets\cannonBall.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\backgroundMusic.wma
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\backgroundMusic.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\cannonFire.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\enemyDeath.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\explosion.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\siren.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\towerScream.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\StagingArea\tent.xnb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\ass1.exe
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\ass1.pdb
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\MonoGame.Framework.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.XAudio2.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.DXGI.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.Direct3D11.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.Direct2D1.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.XInput.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.RawInput.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.Direct3D9.dll
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\MonoGame.Framework.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.MediaFoundation.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.XAudio2.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.DXGI.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.Direct3D11.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.Direct2D1.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.XInput.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.RawInput.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
+C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\obj\x86\Debug\TowerDefence.csprojResolveAssemblyReference.cache

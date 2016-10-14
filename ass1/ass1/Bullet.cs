@@ -22,8 +22,6 @@ namespace TowerDefence {
         public float speed { get; private set; }
         public Enemy targetEnemy { get; private set; }
 
-        private Grid grid;
-
         /// <summary>
         /// Constructor method for the bullet class
         /// Takes the regular basic model parameters and sets the bullets course towards an enemy

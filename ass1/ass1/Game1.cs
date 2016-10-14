@@ -10,7 +10,13 @@ namespace TowerDefence {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game { 
+    public class Game1 : Game {
+
+        private const String STATE_MENU = "MENU";
+        private const String STATE_GAME = "GAME";
+        private const String STATE_GAME_OVER = "GAME_OVER";
+        private const String STATE_PAUSE = "PAUSE";
+        private String currentState;
 
         public int SCREEN_WIDTH;
         public int SCREEN_HEIGHT;
@@ -61,9 +67,6 @@ namespace TowerDefence {
 
         public Camera camera;
 
-        bool gameOver;
-        bool pause; // sushmita
-
         /// <summary>
         /// Constructor method for the game
         /// </summary>
@@ -72,9 +75,8 @@ namespace TowerDefence {
             graphics.IsFullScreen = false;
             graphics.PreferredBackBufferHeight = 500;
             graphics.PreferredBackBufferWidth = 950;
-
+            currentState = STATE_MENU;
             Content.RootDirectory = "Content";
-            gameOver = false;
         }
 
         /// <summary>
@@ -119,8 +121,6 @@ namespace TowerDefence {
 
             sirenInstance = siren.CreateInstance();
 
-            pause = false;
-
             base.Initialize();
         }
 
@@ -161,59 +161,18 @@ namespace TowerDefence {
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            //THE LOGIC FOR DETERMINING THE POSITION OF THE MOUSE RELATIVE TO GROUND PLANE
-            Vector3 pickedPosition = this.PickedPosition();
+            //State Machine:
             MouseState mouseState = Mouse.GetState();
             KeyboardState ks = Keyboard.GetState();
-
-            effect.EnableDefaultLighting();
-
-            try {
-                worldModelManager.selectionCube.ChangeSelectionPosition(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
-            } catch (NullReferenceException) {
-                Debug.WriteLine("Mouse outside world bounds");
-            }
-            
-            try {
-                //Debug.WriteLine("Cube position is now: X: " + pickedPosition.X + " Y: " + -pickedPosition.Z + " Z: " + pickedPosition.Y);
-                //CREATION OF THE TURRET ON CLICK
-                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released) {
-                    if (player.HasSuffucientMoney(Turret.COST)) {
-                        worldModelManager.CreateTurret(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
-                        player.SpendMoney(Turret.COST);
-                    }
-                    else {
-                        //Player does not have enough money for turret
-                    }
-
+            Vector3 pickedPosition = this.PickedPosition();
+            if (currentState == STATE_MENU) {
+                if (ks.GetPressedKeys().Length > 0 && prevKeyboardState.GetPressedKeys().Length == 0) {
+                    currentState = STATE_GAME;
                 }
+            } else if (currentState == STATE_GAME) {
 
-                if (mouseState.RightButton == ButtonState.Pressed) {
-                    //worldModelManager.CreateWall(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
-                    Debug.WriteLine(pickedPosition.ToString());
-                    Tile currentMouseOverTile = grid.GetTile(PickedPositionTranslation(pickedPosition));
-                    if (currentMouseOverTile != null) {
-                        Debug.WriteLine(currentMouseOverTile.ToString());
-                    }
-                    if (player.HasSuffucientMoney(Wall.DEFAULT_COST)) {
-                        worldModelManager.CreateWall(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
-                        player.SpendMoney(Wall.DEFAULT_COST);
-                    }
-                }
-            } catch (NullReferenceException) {
-                Debug.WriteLine("Tried to build outside world bounds. That is not allowed");
-            }
-            
-
-            prevMouseState = mouseState;
-
-            //Random enemy creation every frame, 1 in 100 chance of spawing
-            if (currentWave.SpawnEnemy()) {
-                worldModelManager.CreateEnemy();
-            }
-
-            if (!gameOver && !pause) {
+                camera.Update(gameTime);
+                worldModelManager.Update(gameTime);
                 timeMilliseconds += gameTime.ElapsedGameTime.Milliseconds;
                 //If time in milliseconds is greater than one minute
                 if (timeMilliseconds > 60000) {
@@ -223,19 +182,74 @@ namespace TowerDefence {
                     int newSpawnRate = currentWave.spawnRate / currentWave.waveNumber;
                     currentWave = new Wave(newWaveNumber, newSpawnRate);
                 }
+                //Random enemy creation every frame
+                if (currentWave.SpawnEnemy()) {
+                    worldModelManager.CreateEnemy();
+                }
+
+                try {
+                    worldModelManager.selectionCube.ChangeSelectionPosition(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
+                }
+                catch (NullReferenceException) {
+                    Debug.WriteLine("Mouse outside world bounds");
+                }
+
+                try {
+                    //Debug.WriteLine("Cube position is now: X: " + pickedPosition.X + " Y: " + -pickedPosition.Z + " Z: " + pickedPosition.Y);
+                    //CREATION OF THE TURRET ON CLICK
+                    if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released) {
+                        if (player.HasSuffucientMoney(Turret.COST)) {
+                            worldModelManager.CreateTurret(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
+                            player.SpendMoney(Turret.COST);
+                        }
+                        else {
+                            //Player does not have enough money for turret
+                        }
+
+                    }
+
+                    if (mouseState.RightButton == ButtonState.Pressed) {
+                        //worldModelManager.CreateWall(new Vector3(pickedPosition.X, -pickedPosition.Z, pickedPosition.Y));
+                        Debug.WriteLine(pickedPosition.ToString());
+                        Tile currentMouseOverTile = grid.GetTile(PickedPositionTranslation(pickedPosition));
+                        if (currentMouseOverTile != null) {
+                            Debug.WriteLine(currentMouseOverTile.ToString());
+                        }
+                        if (player.HasSuffucientMoney(Wall.DEFAULT_COST)) {
+                            worldModelManager.CreateWall(grid.GetTile(PickedPositionTranslation(pickedPosition)).globalPosition);
+                            player.SpendMoney(Wall.DEFAULT_COST);
+                        }
+                    }
+                }
+                catch (NullReferenceException) {
+                    Debug.WriteLine("Tried to build outside world bounds. That is not allowed");
+                }
+
+                if(worldModelManager.tower.IsDead()) {
+                    currentState = STATE_GAME_OVER;
+                }
+
+                if (ks.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space)) {
+                    currentState = STATE_PAUSE;
+                }
+            } else if (currentState == STATE_PAUSE) {
+                if (ks.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space)) {
+                    currentState = STATE_GAME;
+                }
+            } else if (currentState == STATE_GAME_OVER) {
+                if (currentWave != null) {
+                    ResetGame();
+                }
+
+                if (ks.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space)) {
+                    currentState = STATE_MENU;
+                }
             }
 
-            if(ks.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
-            {
-                if (pause == false)
-                    pause = true;
-                else
-                    pause = false;
-            }
-
+            effect.EnableDefaultLighting();
+            prevMouseState = mouseState;
             prevKeyboardState = ks;
-            if(pause ==false && !gameOver)
-            base.Update(gameTime);
+
         }
 
         /// <summary>
@@ -257,20 +271,9 @@ namespace TowerDefence {
             base.Draw(gameTime);
 
             ShowBasicInformation();
-            if (currentWave.waveNumber == 1) {
-                Tutorial();
-            }
+
             GraphicsDevice.BlendState = BlendState.Opaque;
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-        }
-
-        /// <summary>
-        /// Sets the game over value to be true. Will be called by another class when a losing
-        /// condition is triggered
-        /// </summary>
-        public void GameOver() {
-            gameOver = true;
-            pause = true;
         }
 
         /// <summary>
@@ -296,7 +299,10 @@ namespace TowerDefence {
                 sirenInstance.IsLooped = true;
                 sirenInstance.Play();
                 towerHealthDanger = true;
-            } 
+            } else if (towerHealthDanger) {
+                sirenInstance.Stop();
+                towerHealthDanger = false;
+            }
         }
 
         public void TowerTakesDamage() {
@@ -349,32 +355,55 @@ namespace TowerDefence {
         public void ShowBasicInformation() {
             spriteBatch.Begin();
 
-            //Player and Tower information on screen
-            player.DrawText(spriteBatch, informationFont);
-            worldModelManager.tower.DrawText(spriteBatch, informationFont);
+           
 
             //Message displayed when game is over
-            if (gameOver) {
+            if (currentState == STATE_GAME_OVER) {
                 String gameOverString = "THE TOWER HAS BEEN DESTROYED";
                 String waveNumberGameOverString = "YOU MADE IT TO WAVE: " + currentWave.waveNumber;
+                String instructionText = "Hold Space to Continue";
                 Vector2 gameOverCenterVector = informationFont.MeasureString(gameOverString) / 2;
                 Vector2 waveNumberGameOverCenterVector = informationFont.MeasureString(waveNumberGameOverString) / 2;
+                Vector2 instructionTextVector = informationFont.MeasureString(instructionText)/2;
                 spriteBatch.DrawString(informationFont, gameOverString, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 100), Game1.TEXT_COLOR, 0, gameOverCenterVector, 1.0f, SpriteEffects.None, 0.5f);
-                spriteBatch.DrawString(informationFont, waveNumberGameOverString, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 100), Game1.TEXT_COLOR, 0, waveNumberGameOverCenterVector, 1.0f, SpriteEffects.None, 0.5f);
+                spriteBatch.DrawString(informationFont, waveNumberGameOverString, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), Game1.TEXT_COLOR, 0, waveNumberGameOverCenterVector, 1.0f, SpriteEffects.None, 0.5f);
+                spriteBatch.DrawString(informationFont, instructionText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 +100), Game1.TEXT_COLOR, 0, instructionTextVector, 1.0f, SpriteEffects.None, 0.5f);
 
+            } else if (currentState == STATE_PAUSE) {
+                String alertText;
+                alertText = "Game is Paused. Please press space to continue";
+                //Find the center of the string
+                Vector2 fontOrigin = informationFont.MeasureString(alertText) / 2;
+                //Draw the String
+                spriteBatch.DrawString(informationFont, alertText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), Game1.TEXT_COLOR, 0, fontOrigin, 1.5f, SpriteEffects.None, 0.5f);
+
+            } else if (currentState == STATE_GAME) {
+                //Player and Tower information on screen
+                player.DrawText(spriteBatch, informationFont);
+                worldModelManager.tower.DrawText(spriteBatch, informationFont);
+                String timeString;
+                if (timeMilliseconds < 10000) {
+                    timeString = "Time: " + timeMinutes + ":0" + timeMilliseconds / 1000;
+                }
+                else {
+                    timeString = "Time: " + timeMinutes + ":" + timeMilliseconds / 1000;
+                }
+                spriteBatch.DrawString(informationFont, timeString, new Vector2(SCREEN_WIDTH - 150, 20), TEXT_COLOR);
+                spriteBatch.DrawString(informationFont, "Wave: " + currentWave.waveNumber, new Vector2(SCREEN_WIDTH - 150, SCREEN_HEIGHT - 100), Game1.TEXT_COLOR);
+                if (currentWave.waveNumber == 1) {
+                    Tutorial();
+                }
+
+            } else if (currentState == STATE_MENU) {
+                String alertText = "DEFEND THE TOWER";
+                String instructionText = "Press Any Key to Start";
+                //Find the center of the string
+                Vector2 fontOrigin = informationFont.MeasureString(alertText) / 2;
+                //Draw the String
+                spriteBatch.DrawString(informationFont, alertText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), Game1.TEXT_COLOR, 0, fontOrigin, 1.5f, SpriteEffects.None, 0.5f);
+                spriteBatch.DrawString(informationFont, instructionText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 100), Game1.TEXT_COLOR, 0, fontOrigin, 1.0f, SpriteEffects.None, 0.5f);
             }
 
-            String timeString;
-            if (timeMilliseconds < 10000) {
-                timeString = "Time: " + timeMinutes + ":0" + timeMilliseconds / 1000;
-            }
-            else {
-                timeString = "Time: " + timeMinutes + ":" + timeMilliseconds / 1000;
-            }
-
-            spriteBatch.DrawString(informationFont, timeString, new Vector2(SCREEN_WIDTH - 150, 20), TEXT_COLOR);
-
-            spriteBatch.DrawString(informationFont, "Wave: " + currentWave.waveNumber, new Vector2(SCREEN_WIDTH - 150, SCREEN_HEIGHT - 100), Game1.TEXT_COLOR);
 
             spriteBatch.End();
         }
@@ -382,10 +411,10 @@ namespace TowerDefence {
         public void Tutorial() {
             String alertText;
             //Wave number alert
-            if (pause == true && !gameOver) {
-                alertText = "Game is Paused. Please press space to continue";
+            if (currentState == STATE_PAUSE) {
+                return;
             }
-            else if (timeMilliseconds < 5000 && currentWave.waveNumber != 1) {
+            if (timeMilliseconds < 5000 && currentWave.waveNumber != 1) {
                 alertText = "Wave " + currentWave.waveNumber;
             }
             else if (currentWave.waveNumber > 1) {
@@ -419,9 +448,17 @@ namespace TowerDefence {
             //Find the center of the string
             Vector2 fontOrigin = informationFont.MeasureString(alertText) / 2;
             //Draw the String
-            spriteBatch.Begin();
             spriteBatch.DrawString(informationFont, alertText, new Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), Game1.TEXT_COLOR, 0, fontOrigin, 1.5f, SpriteEffects.None, 0.5f);
-            spriteBatch.End();
+        }
+
+        private void ResetGame() {
+            timeMilliseconds = 0;
+            timeMinutes = 0;
+            currentWave = null;
+            Components.Remove(worldModelManager);
+            sirenInstance.Dispose();
+            MediaPlayer.Stop();
+            Initialize();
         }
 
     }

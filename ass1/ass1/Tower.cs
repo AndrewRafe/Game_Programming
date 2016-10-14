@@ -12,7 +12,7 @@ namespace TowerDefence
     public class Tower : Building 
     {
 
-        public static float DEFAULT_TOWER_HEALTH = 1000.0f;
+        public static float DEFAULT_TOWER_HEALTH = 100.0f;
         public static float DEFAULT_DAMAGE = 1000.0f;
 
         Game1 game;
@@ -62,22 +62,13 @@ namespace TowerDefence
             spriteBatch.DrawString(font, text, new Vector2(game.SCREEN_WIDTH/2, 40), Game1.TEXT_COLOR, 0, textCenter, 1.0f, SpriteEffects.None, 0.5f);
         }
 
-        /// <summary>
-        /// Lets the game know when the tower has been destroyed
-        /// </summary>
-        public void TowerDestroyed() {
-            game.GameOver();
-        }
-
         public override void DamageObject(float damage) {
             base.DamageObject(damage);
             game.TowerTakesDamage();
             if (currentHealth <= (maxHealth*0.2)) {
                 game.TowerDangerHealth();
             }
-            if (currentHealth <= 0) {
-                TowerDestroyed();
-            }
+            
         }
     }
 }

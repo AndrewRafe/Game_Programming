@@ -68,7 +68,7 @@ namespace TowerDefence
             selectionCube = new SelectionCube(Game.Content.Load<Model>(@"Models\selectionCube"), new Vector3(0, 0, MODEL_OFFSET));
             models.Add(selectionCube);
             Tile towerOnTile = grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT / 2));
-            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), towerOnTile.globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Tower.DEFAULT_DAMAGE, Game.Content.Load<Texture2D>(@"HealthTexture"), game.spriteBatch, grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT / 2)));
+            tower = new Tower(Game.Content.Load<Model>(@"Models\Buildings\Tower\tower"), towerOnTile.globalPosition, game, Tower.DEFAULT_TOWER_HEALTH, Tower.DEFAULT_DAMAGE, null, game.spriteBatch, grid.GetTile(new Vector2(0, Game1.WORLD_BOUNDS_HEIGHT / 2)));
 
 
             //CreateEnemy();
