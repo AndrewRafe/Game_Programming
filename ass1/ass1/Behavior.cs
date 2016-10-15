@@ -74,7 +74,7 @@ namespace TowerDefence {
         /// <param name="gameTime">A reference to the game time</param>
         /// <param name="predictionAccuracy">A prediction accuracy variable</param>
         /// <returns>The position that the target will be</returns>
-        public static Vector3 PredictTargetPosition(Vector3 targetPosition, Vector3 targetVelocityVector, GameTime gameTime, int predictionAccuracy) {
+        public static Vector3 PredictTargetPosition(Vector3 targetPosition, Vector3 targetVelocityVector, GameTime gameTime, float predictionAccuracy) {
             //Predict where the target will be according to its current velocity and prediction accuracy
             Vector3 predictionPosition = targetPosition + targetVelocityVector * predictionAccuracy;
             return predictionPosition;

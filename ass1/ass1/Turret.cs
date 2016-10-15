@@ -40,6 +40,7 @@ namespace TowerDefence {
             this.bullet = bullet;
             lastFired = 0;
             this.range = range;
+            FaceEnemy(null);
             //Debug.WriteLine("Turret created at X: " + position.X + " Y: " + position.Y + " Z: " + position.Z);
             Initiate();
         }

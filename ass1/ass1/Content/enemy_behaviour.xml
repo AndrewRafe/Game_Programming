@@ -31,5 +31,5 @@ Allowed conditions:
   <state fromState="ATTACK_WALL">
     <transition condition="LOW_HEALTH" toState="RUN_AWAY"/>
   </state>
-  
+
 </fsm>

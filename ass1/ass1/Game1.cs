@@ -203,8 +203,12 @@ namespace TowerDefence {
                     timeMinutes++;
                     timeMilliseconds = 0;
                     int newWaveNumber = currentWave.waveNumber + 1;
-                    int newSpawnRate = currentWave.spawnRate / currentWave.waveNumber;
+                    int newSpawnRate = currentWave.spawnRate / 2;
+                    if (newSpawnRate == 0) {
+                        newSpawnRate = 1;
+                    }
                     currentWave = new Wave(newWaveNumber, newSpawnRate);
+                    player.GiveMoney(newWaveNumber * 100);
                 }
                 //Random enemy creation every frame
                 if (currentWave.SpawnEnemy()) {
@@ -239,6 +243,7 @@ namespace TowerDefence {
 
                 if (worldModelManager.tower.IsDead()) {
                     currentState = STATE_GAME_OVER;
+                    prevWaveNumber = currentWave.waveNumber;
                 }
 
                 if (ks.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space)) {
@@ -282,7 +287,9 @@ namespace TowerDefence {
                 catch (NullReferenceException) {
                     Debug.WriteLine("Tried to build outside world bounds. That is not allowed");
                 }
-
+                if (ks.IsKeyDown(Keys.C)) {
+                    ResetGame();
+                }
                 if (ks.IsKeyDown(Keys.Enter)) {
                     WriteLevelToFile("../../../../Content/level3.txt", worldModelManager.grid);
                     
@@ -496,7 +503,7 @@ namespace TowerDefence {
         }
 
         private void ResetGame() {
-            prevWaveNumber = currentWave.waveNumber;
+            
             timeMilliseconds = 0;
             timeMinutes = 0;
             Components.Remove(worldModelManager);

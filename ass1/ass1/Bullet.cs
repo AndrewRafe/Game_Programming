@@ -31,7 +31,7 @@ namespace TowerDefence {
         /// <param name="targetEnemy">The enemy that the bullet is directed at</param>
         /// <param name="tower">The tower needed to be protected</param>
         /// <param name="gameTime">A reference to the game time</param>
-        public Bullet(Model m, Vector3 position, Enemy targetEnemy, float damage, GameTime gameTime, Grid grid) : base(m, position) {
+        public Bullet(Model m, Vector3 position, Enemy targetEnemy, float damage, GameTime gameTime, Grid grid) : base(m, new Vector3(position.X, position.Y, 0)) {
             Debug.WriteLine("BULLET CREATED");
             this.targetEnemy = targetEnemy;
             this.speed = 150.0f;
@@ -54,8 +54,8 @@ namespace TowerDefence {
         /// The algorithm used to calculate the accuracy variable for the prediction of the moving enemy
         /// </summary>
         /// <returns></returns>
-        private int CalculatePredictionAccuracy() {
-            return (int)Vector3.Distance(position, targetEnemy.GetPosition())/2;
+        private float CalculatePredictionAccuracy() {
+            return Math.Abs(Vector3.Distance(position, targetEnemy.GetPosition())/2f);
         }
 
         /// <summary>

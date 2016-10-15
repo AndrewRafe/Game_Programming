@@ -145,7 +145,7 @@
 /processorParam:RotationX=0
 /processorParam:RotationY=0
 /processorParam:RotationZ=0
-/processorParam:Scale=5
+/processorParam:Scale=8
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=NoChange
 /build:Models/Enemy/enemy.FBX
