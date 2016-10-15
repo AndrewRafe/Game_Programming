@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace TowerDefence {
     class Player {
 
-        public static float STARTING_MONEY = 300.0f;
+        public static float STARTING_MONEY = 200.0f;
 
         public float money;
         Game1 game;

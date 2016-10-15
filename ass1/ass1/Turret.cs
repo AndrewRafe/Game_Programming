@@ -15,7 +15,7 @@ namespace TowerDefence {
     public class Turret : Building {
 
         public static int COST = 100;
-        public static float DEFAULT_DAMAGE = 50.0f;
+        public static float DEFAULT_DAMAGE = 30.0f;
         public static float DEFAULT_HEALTH = 100.0f;
 
         //Number of shots per second

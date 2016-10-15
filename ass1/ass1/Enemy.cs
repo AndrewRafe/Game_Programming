@@ -11,7 +11,7 @@ using System.Xml.Linq;
 namespace TowerDefence {
     public class Enemy : BasicGameObject {
 
-        public static float MAX_HEALTH = 300.0f;
+        public static float MAX_HEALTH = 500.0f;
         public static float MAX_DAMAGE = 100.0f;
         public const float DEFAULT_REWARD_FOR_KILLING = 10.0f;
 

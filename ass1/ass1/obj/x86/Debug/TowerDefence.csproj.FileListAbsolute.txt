@@ -102,7 +102,6 @@ C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Cont
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\explosion.xnb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\siren.xnb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Sound\towerScream.xnb
-C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\StagingArea\tent.xnb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\ass1.exe
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\ass1.pdb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\MonoGame.Framework.dll
@@ -281,7 +280,6 @@ C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Co
 C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Textures\Marble_Base_Color_0.xnb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\WoodCabinDif.xnb
 C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\WoodCabinDif_0.xnb
-C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Enemy\enemycabin.xnb
 C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\WoodCabinDif.xnb
 C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\WoodCabinDif_0.xnb
 C:\Users\Andrew Rafe\Desktop\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\enemycabin.xnb
@@ -296,3 +294,4 @@ C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Progra
 C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Textures\Marble_Base_Color_0.xnb
 C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\WoodCabinDif.xnb
 C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\WoodCabinDif_0.xnb
+C:\Users\Diplove\Documents\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\enemycabin.xnb

@@ -76,9 +76,9 @@ namespace TowerDefence {
         /// </summary>
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 1000;
-            graphics.PreferredBackBufferWidth = 1900;
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
             currentState = STATE_MENU;
             Content.RootDirectory = "Content";
             prevWaveNumber = 1;
@@ -446,7 +446,7 @@ namespace TowerDefence {
 
             } else if (currentState == STATE_MENU) {
                 String alertText = "DEFEND THE TOWER";
-                String instructionText = "Press Space to Start, L to start Level Editor";
+                String instructionText = "Press 1,2 Or 3 to select predefined level and Press SPACE to start the game OR L to start Level Editor";
                 //Find the center of the string
                 Vector2 fontOrigin = informationFont.MeasureString(alertText) / 2;
                 Vector2 instructionTextVector = informationFont.MeasureString(instructionText) / 2;
