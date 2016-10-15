@@ -16,7 +16,6 @@ Allowed conditions:
 
   <state fromState="IDLE">
     <transition condition="PATH_TO_TOWER" toState="ATTACK_TOWER"/>
-    <transition condition="NO_PATH_TO_TOWER" toState="ATTACK_WALL"/>
     <transition condition="INIT" health="300" damage="100" toState="NONE"/>
   </state>
 
@@ -26,10 +25,6 @@ Allowed conditions:
 
   <state fromState="RUN_AWAY">
     <transition condition="MAX_HEALTH" toState="IDLE"/>
-  </state>
-
-  <state fromState="ATTACK_WALL">
-    <transition condition="LOW_HEALTH" toState="RUN_AWAY"/>
   </state>
 
 </fsm>

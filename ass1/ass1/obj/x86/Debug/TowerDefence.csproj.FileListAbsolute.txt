@@ -291,3 +291,8 @@ F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\M
 F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\enemycabin.xnb
 F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Textures\Marble_Base_Color.xnb
 F:\MonoGame Workspace\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Textures\Marble_Base_Color_0.xnb
+C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\enemycabin.xnb
+C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Textures\Marble_Base_Color.xnb
+C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\Buildings\Textures\Marble_Base_Color_0.xnb
+C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\WoodCabinDif.xnb
+C:\Users\sushm\Documents\Game Programming\Group Assignment 1\New One\Game_Programming\ass1\ass1\bin\Windows\x86\Debug\Content\Models\WoodCabinDif_0.xnb

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>F:/MonoGame Workspace/Game_Programming/ass1/ass1/Content/Models/Buildings/Tower/towertop.jpg</SourceFile>
-  <SourceTime>2016-09-26T16:04:13.7269793+10:00</SourceTime>
-  <DestFile>F:/MonoGame Workspace/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/Tower/towertop_0.xnb</DestFile>
-  <DestTime>2016-10-15T13:56:57.1370886+11:00</DestTime>
+  <SourceFile>C:/Users/sushm/Documents/Game Programming/Group Assignment 1/New One/Game_Programming/ass1/ass1/Content/Models/Buildings/Tower/towertop.jpg</SourceFile>
+  <SourceTime>2016-10-13T06:26:06.0221393+11:00</SourceTime>
+  <DestFile>C:/Users/sushm/Documents/Game Programming/Group Assignment 1/New One/Game_Programming/ass1/ass1/Content/bin/Windows/Models/Buildings/Tower/towertop_0.xnb</DestFile>
+  <DestTime>2016-10-15T16:09:46.4801032+11:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
+  <ImporterTime>2015-04-30T03:14:44+10:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
-  <ProcessorTime>2016-03-30T17:36:08+11:00</ProcessorTime>
+  <ProcessorTime>2015-04-30T03:14:44+10:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>0,0,0,0</Value>
@@ -19,14 +19,6 @@
   <Parameters>
     <Key>GenerateMipmaps</Key>
     <Value>True</Value>
-  </Parameters>
-  <Parameters>
-    <Key>PremultiplyAlpha</Key>
-    <Value>True</Value>
-  </Parameters>
-  <Parameters>
-    <Key>ResizeToPowerOfTwo</Key>
-    <Value>False</Value>
   </Parameters>
   <Parameters>
     <Key>TextureFormat</Key>

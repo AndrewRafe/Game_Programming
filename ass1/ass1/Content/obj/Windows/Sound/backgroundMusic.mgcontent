@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>F:/MonoGame Workspace/Game_Programming/ass1/ass1/Content/Sound/backgroundMusic</SourceFile>
-  <SourceTime>2016-09-26T16:04:13.7810622+10:00</SourceTime>
-  <DestFile>F:/MonoGame Workspace/Game_Programming/ass1/ass1/Content/bin/Windows/Sound/backgroundMusic.xnb</DestFile>
-  <DestTime>2016-10-15T13:56:56.2311313+11:00</DestTime>
+  <SourceFile>C:/Users/sushm/Documents/Game Programming/Group Assignment 1/New One/Game_Programming/ass1/ass1/Content/Sound/backgroundMusic</SourceFile>
+  <SourceTime>2016-10-13T06:26:06.1482154+11:00</SourceTime>
+  <DestFile>C:/Users/sushm/Documents/Game Programming/Group Assignment 1/New One/Game_Programming/ass1/ass1/Content/bin/Windows/Sound/backgroundMusic.xnb</DestFile>
+  <DestTime>2016-10-15T16:09:46.0137859+11:00</DestTime>
   <Importer>Mp3Importer</Importer>
-  <ImporterTime>2016-03-30T17:36:08+11:00</ImporterTime>
+  <ImporterTime>2015-04-30T03:14:44+10:00</ImporterTime>
   <Processor>SongProcessor</Processor>
-  <ProcessorTime>2016-03-30T17:36:08+11:00</ProcessorTime>
+  <ProcessorTime>2015-04-30T03:14:44+10:00</ProcessorTime>
   <Parameters>
     <Key>Quality</Key>
     <Value>Best</Value>
@@ -15,6 +15,6 @@
   <Dependencies />
   <BuildAsset />
   <BuildOutput>
-    <string>F:/MonoGame Workspace/Game_Programming/ass1/ass1/Content/bin/Windows/Sound/backgroundMusic.wma</string>
+    <string>C:/Users/sushm/Documents/Game Programming/Group Assignment 1/New One/Game_Programming/ass1/ass1/Content/bin/Windows/Sound/backgroundMusic.wma</string>
   </BuildOutput>
 </PipelineBuildEvent>
